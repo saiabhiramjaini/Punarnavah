@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import { z } from 'zod'
-import { ContributionSchema, UploadContributionSchema } from '../schema';
+import { ContributionSchema, UploadContributionSchema } from "@abhiram2k03/punarnavah-common";
 
 const prisma = new PrismaClient();
 
@@ -33,7 +33,7 @@ export const contribute = async (req: Request, res: Response) => {
                 pincode: validateContribute.pincode,
                 quantity: validateContribute.quantity,
                 wasteRequestId: validateContribute.wasteRequestId,
-                userId: validateContribute.userId
+                userId: validateContribute.userId!
             }
        })
 

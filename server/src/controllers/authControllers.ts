@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { forgotPasswordSchema, resetPasswordSchema, signinSchema, signupSchema } from "../schema";
+import { forgotPasswordSchema, resetPasswordSchema, signinSchema, signupSchema } from "@abhiram2k03/punarnavah-common";
 import { sendEmail } from "../utils/email"
 import { AuthenticatedRequest } from "../utils/types";
 

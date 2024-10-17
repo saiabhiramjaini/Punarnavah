@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
-import { UserSchema } from '../schema';
+import { UserSchema } from "@abhiram2k03/punarnavah-common";
 import { z } from 'zod';
 
 const prisma = new PrismaClient();

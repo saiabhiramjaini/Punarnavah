@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
-import { InnovativeProductSchema, UploadInnovativeProductSchema } from '../schema';
+import { InnovativeProductSchema, UploadInnovativeProductSchema } from "@abhiram2k03/punarnavah-common";
 import { AuthenticatedRequest } from '../utils/types';
 
 const prisma = new PrismaClient();

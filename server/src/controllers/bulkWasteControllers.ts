@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BulkWasteSchema, UploadBulkWasteSchema } from '../schema';
+import { BulkWasteSchema, UploadBulkWasteSchema } from "@abhiram2k03/punarnavah-common";
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 

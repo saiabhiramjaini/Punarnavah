@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { UploadWasteRequestSchema, WasteRequestSchema } from '../schema';
+import { UploadWasteRequestSchema, WasteRequestSchema } from "@abhiram2k03/punarnavah-common";
 import { z } from 'zod';
 import { AuthenticatedRequest } from '../utils/types';
 
@@ -11,9 +11,6 @@ export const uploadWasteReq = async (req: AuthenticatedRequest, res: Response) =
         const { image, name, description, requiredQuantity, quantityUnit, price } = req.body;
 
         const userId = req.user?.id;
-        if (!userId) {
-            return res.status(400).json({ message: "User ID is required" });
-        }
 
         const validatedWasteReq = UploadWasteRequestSchema.parse({
             image, 
