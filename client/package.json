@@ -10,15 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@abhiram2k03/punarnavah-common": "^1.0.2",
     "axios": "^1.7.7",
     "cloudinary-react": "^1.8.1",
+    "framer-motion": "^11.11.9",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.453.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^5.3.0",
     "react-router-dom": "^6.26.2",
-    "react-toastify": "^10.0.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {

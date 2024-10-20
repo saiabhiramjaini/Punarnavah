@@ -7,10 +7,19 @@ import axios from "axios";
 import { UploadImage } from "../components/UploadImage";
 import { TextAreaBox } from "../components/TextAreaBox";
 import { Dropdown } from "../components/Dropdown";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { backendUrl, cloudinaryCloudName, cloudinaryUploadPreset, cloudinaryURL } from "../utils/config";
+import {
+  backendUrl,
+  cloudinaryCloudName,
+  cloudinaryUploadPreset,
+  cloudinaryURL,
+} from "../utils/config";
+
 import { UploadWasteRequestType } from "../utils/schema";
+import bg from "../assets/bg-3.svg";
+import toast from "react-hot-toast";
+
+
 
 export const UploadReqPage = () => {
   const [uploadReq, setUploadReq] = useState<UploadWasteRequestType>({
@@ -47,111 +56,129 @@ export const UploadReqPage = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-  
+
     setUploadReq((prevState) => ({
       ...prevState,
-      [name]: (name === "requiredQuantity" || name === "price") 
-        ? Number(value) || 0 
+      [name]: (name === "requiredQuantity" || name === "price")
+        ? Number(value) || 0
         : value,
     }));
   };
-  
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     try {
-      let imageUrl = uploadReq.image; 
-  
+      let imageUrl = uploadReq.image;
+
       if (selectedImg instanceof File) {
-        imageUrl = await uploadImage(selectedImg); 
+        imageUrl = await uploadImage(selectedImg);
       }
-  
+
       const updatedUploadReq = {
         ...uploadReq,
-        image: imageUrl, 
-        requiredQuantity: Number(uploadReq.requiredQuantity), 
-        price: Number(uploadReq.price), 
+        image: imageUrl,
+        requiredQuantity: Number(uploadReq.requiredQuantity),
+        price: Number(uploadReq.price),
       };
-  
+
       const response = await axios.post(`${backendUrl}/api/v1/waste-req`, updatedUploadReq);
-  
+
       if (response.status === 201) {
-        toast.success("Waste request created successfully");
-        // navigate("");
+        toast.success("Waste Request created successfully");
       } else {
         console.error("Error occurred", response.data.error[0].message);
         toast.error(response.data.error[0].message);
       }
-      
+
     } catch (error: any) {
       if (error.response?.status === 401) {
         toast.error("Session expired. Please log in again.");
         navigate("/");
       } else {
-        const errorMessage = error.response?.data?.errors?.[0]?.message || 
-                           error.response?.data?.message ||
-                           "An error occurred";
+        const errorMessage = error.response?.data?.errors?.[0]?.message ||
+          error.response?.data?.message ||
+          "An error occurred";
         toast.error(errorMessage);
       }
       console.error("Error occurred", error);
       setError("Request creation failed. Please try again.");
-    }  finally {
+    } finally {
       setLoading(false);
     }
   };
-  
+
 
   return (
-    <div>
-      <Heading text="Upload waste request" />
-      <SubHeading text="Fill in the details below to upload a waste request" />
+    <div
+      style={{
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div className="w-full max-w-7xl px-4 md:px-0 min-h-screen flex items-center justify-center">
+        <div className="bg-white pt-1 rounded-3xl shadow-2xl flex flex-col md:flex-row w-full">
+          {/* Left section for image upload */}
+          <div className="w-full md:w-1/2 p-6 flex flex-col justify-center items-center bg-gray-100 rounded-l-3xl">
+            <UploadImage name="" handleImageChange={handleImageChange} />
+          </div>
 
-      <UploadImage name="image" handleImageChange={handleImageChange} />
-      
-      <InputBox
-        label="Name"
-        type="text"
-        placeholder="Enter name"
-        name="name"
-        onChange={handleInputChange}
-      />
-
-      <TextAreaBox 
-        label="Description" 
-        placeholder="description" 
-        name="description" 
-        onChange={handleInputChange}
-      />
-      
-      <InputBox
-        label="Required Quantity"
-        type="number"
-        placeholder="Enter required quantity"
-        name="requiredQuantity"
-        onChange={handleInputChange}
-      />
-
-      <Dropdown
-        name="quantityUnit"
-        label="Choose a unit"
-        options={['gms', 'kgs', 'tonns', 'units']}
-        handleInputChange={handleInputChange}
-      />
-
-      <InputBox
-        label="Price"
-        type="number"
-        placeholder="Enter price"
-        name="price"
-        onChange={handleInputChange}
-      />
-
-      <p className="text-red-500">{error}</p>
-      
-      <Button text={loading ? "submitting...." : "Submit"} onClick={handleSubmit}  />
+          {/* Right section for the form */}
+          <div className="w-full md:w-3/4 p-6 flex flex-col justify-center">
+            <div className="text-center mb-8">
+              <Heading text="Upload your Waste Request" />
+              <SubHeading text="Fill in the details below to upload your request" />
+            </div>
+            <form className="space-y-6">
+              <InputBox
+                label="Name"
+                type="text"
+                placeholder="Enter name"
+                name="name"
+                onChange={handleInputChange}
+              />
+              <TextAreaBox
+                label="Description"
+                placeholder="Description"
+                name="description"
+                onChange={handleInputChange}
+              />
+              <InputBox
+                label="Quantity"
+                type="number"
+                placeholder="Enter quantity"
+                name="requiredQuantity"
+                onChange={handleInputChange}
+              />
+              <Dropdown
+                name="quantityUnit"
+                label="Choose a unit: "
+                options={["gms", "kgs", "tonns", "units"]}
+                handleInputChange={handleInputChange}
+              />
+              <InputBox
+                label="Price"
+                type="number"
+                placeholder="Enter price"
+                name="price"
+                onChange={handleInputChange}
+              />
+              {error && <p className="text-red-500">{error}</p>}
+              <div className="pt-4 flex items-center justify-center">
+                <Button text={loading ? "Submitting..." : "Submit"} onClick={handleSubmit} />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

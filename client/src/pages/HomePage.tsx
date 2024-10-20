@@ -1,70 +1,150 @@
-import { Button } from "../components/Button";
-import { Dropdown } from "../components/Dropdown";
-import { ImageUpload } from "../components/ImageUpload";
-import { InputBox } from "../components/InputBox";
-import { TextAreaBox } from "../components/TextAreaBox";
-import { TextLink } from "../components/TextLink";
-import Card from "../components/Card";
+import { motion } from "framer-motion";
+import homeImage from "../assets/images/home1.png";
 import Navbar from "../components/Navbar";
+import Image1 from "../assets/images/1.png";
+import Image2 from "../assets/images/2.png";
+import Image3 from "../assets/images/3.png";
+import Image4 from "../assets/images/4.png";
+import Image5 from "../assets/images/5.png";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
+  const navigate = useNavigate();
+
+  // Define the animation variants for images
+  const imageVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
+  // Hover effect for buttons
+  const hoverEffect = {
+    rest: { scale: 1, opacity: 1 },
+    hover: { scale: 1.1, opacity: 1, transition: { duration: 0.3 } },
+  };
+
   return (
     <>
-    <div className="h-10">
-    </div>
-
-    <Navbar />
-
-    <Card name={"asdf"} description={"sdf asdf asdf aefew rgf aw asfd ewr wef awe fdasgif auygef aiueyg dayged ayged ywegd eywg fkjhasg"} image={""} linkText={""}/>
-
-    <Dropdown label="Select a fruit" options={["Apple", "Banana", "Cherry"]} onChange={(e) => console.log(e.target.value)} />
-    <ImageUpload onImageUpload={function (file: File | null): void {
-              throw new Error("Function not implemented.");
-          } }  />
-
-    <TextAreaBox label="Password" onChange={(e) => console.log(e.target.value)} />
-
-    <InputBox label="Email" type="email" onChange={(e) => console.log(e.target.value)} />
-    <div className="ml-10">
-
-        <TextLink text="Forgot Password?" linkTo="/forgot-password" />
-        
-
-    <Button text="Submit" onClick={(e) => console.log("Button clicked")} />
-    </div>
-
-
       <div className="h-screen w-screen">
-        {/* Hero component */}
-        <div className="h-1/2 flex flex-col justify-center items-center">
-          <div className="flex justify-between w-2/3 mb-10">
-            <div>Home</div>
-            <div>Signup</div>
-          </div>
-          <div className="font-limeLight text-9xl">PUNARNAVAH</div>
-        </div>
+        <Navbar />
+        <div className="flex m-8 justify-center items-end">
+          <div className="w-full h-full flex">
+            <div className="flex flex-col items-center justify-between space-y-4 w-1/3">
+              <motion.div
+                className="text-center flex items-center justify-center relative"
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover="hover"
+              >
 
-        {/* Welcome msg and lottie animation */}
-        <div className="h-1/2 bg-secondary flex justify-center gap-5">
-          <div className="flex flex-col justify-center w-1/3">
-            <div className="font-limeLight mb-5 text-4xl">
-              Welcome to a Greener Global Future
+
+                <motion.button
+                  onClick={() => {
+                    navigate("/waste-req");
+                  }}
+                  variants={hoverEffect}
+                >
+                  <img src={Image1} alt="" />
+                </motion.button>
+              </motion.div>
+
+              <motion.div
+                className="text-center flex items-center justify-center relative"
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.2 }}
+                whileHover="hover"
+              >
+
+
+                <motion.button
+                  onClick={() => {
+                    navigate("/innovative-prods");
+                  }}
+                  variants={hoverEffect}
+                >
+                  <img src={Image2} alt="" />
+                </motion.button>
+              </motion.div>
+
+              <motion.div
+                className="text-center flex items-center justify-center relative"
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.4 }}
+                whileHover="hover"
+              >
+
+
+                <motion.button
+                  onClick={() => {
+                    navigate("/bulk-waste");
+                  }}
+                  variants={hoverEffect}
+                >
+                  <img src={Image3} alt="" />
+                </motion.button>
+              </motion.div>
             </div>
-            <div className="text-white text-lg">
-              Meet Punarnavah—your friendly neighborhood waste processor with a
-              twist: We don't just dispose of it, we spin it into gold! No
-              really, we're transforming waste into an economic opportunity.
-              Pioneers in shaking up the circular economy, we connect
-              communities, artisans, and industries in the never-ending cycle of
-              waste upcycling.
+
+            <motion.div
+              className="flex items-center justify-center relative"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1, transition: { duration: 1 } }}
+            >
+              <img src={homeImage} alt="home" className="w-full h-auto p-2" />
+            </motion.div>
+
+            <div className="flex flex-col items-center justify-between space-y-4 w-1/3">
+              <motion.div
+                className="text-center flex items-center justify-center relative"
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.6 }}
+                whileHover="hover"
+              >
+
+
+                <motion.button
+                  onClick={() => {
+                    navigate("/upload-req");
+                  }}
+                  variants={hoverEffect}
+                >
+                  <img src={Image4} alt="" />
+                </motion.button>
+              </motion.div>
+
+              <motion.div
+                className="text-center flex items-center justify-center relative"
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.8 }}
+                whileHover="hover"
+              >
+
+
+                <motion.button
+                  onClick={() => {
+                    navigate("/upload-innovative-prod");
+                  }}
+                  variants={hoverEffect}
+                >
+                  <img src={Image5} alt="" />
+                </motion.button>
+              </motion.div>
             </div>
-          </div>
-          <div className="flex flex-col justify-center w-1/3">
-          for lottie animation or logo
-          
           </div>
         </div>
       </div>
     </>
   );
 };
+
+export default HomePage;
+
