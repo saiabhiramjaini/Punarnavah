@@ -40,8 +40,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/punarnavah-server:latest
-            sudo docker stop punarnavah-server || true
-            sudo docker rm punarnavah-server || true
             sudo docker run -d -p 8080:8080 \
               -e PORT=${{ secrets.ENV_PORT }} \
               -e DATABASE_URL=${{ secrets.ENV_MONGO_URI }} \
