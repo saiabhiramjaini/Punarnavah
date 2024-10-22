@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/punarnavah-server:latest
+            sudo docker pull saiabhiramjaini/punarnavah-server:latest
             sudo docker stop punarnavah-server || true
             sudo docker rm punarnavah-server || true
             sudo docker run -d -p 8080:8080 \
@@ -48,4 +48,4 @@ jobs:
               -e JWT_SECRET=${{ secrets.ENV_JWT_SECRET }} \
               -e SENDER_EMAIL=${{ secrets.ENV_SENDER_EMAIL }} \
               -e SENDER_PASS=${{ secrets.ENV_SENDER_PASS }} \
-              --name punarnavah-server ${{ secrets.DOCKER_USERNAME }}/punarnavah-server:latest
+              --name punarnavah-server saiabhiramjaini/punarnavah-server:latest
