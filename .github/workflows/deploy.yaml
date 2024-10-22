@@ -40,10 +40,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             sudo docker pull saiabhiramjaini/punarnavah-server:latest
+            sudo docker stop punarnavah-server || true
+            sudo docker rm punarnavah-server || true
             sudo docker run -d -p 8080:8080 \
               -e PORT=${{ secrets.ENV_PORT }} \
               -e DATABASE_URL=${{ secrets.ENV_DATABASE_URL }} \
               -e JWT_SECRET=${{ secrets.ENV_JWT_SECRET }} \
               -e SENDER_EMAIL=${{ secrets.ENV_SENDER_EMAIL }} \
               -e SENDER_PASS=${{ secrets.ENV_SENDER_PASS }} \
-            saiabhiramjaini/punarnavah-server:latest
+              --name punarnavah-server saiabhiramjaini/punarnavah-server:latest
