@@ -1,0 +1,138 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wasteRequests        WasteRequest[]
+  contributions        Contribution[]
+  innovativeProducts   InnovativeProduct[]
+  wasteReqOrders       SatisfiedWasteReqOrder[]
+  innovativeProdOrders InnovativeProdOrder[]
+  bulkWasteOrders      BulkWasteOrder[]
+}
+
+model WasteRequest {
+  id                String @id @default(cuid())
+  image             String
+  name              String
+  description       String
+  requiredQuantity  Int 
+  remainingQuantity Int 
+  quantityUnit      String
+  price             Float
+
+  contributions Contribution[]
+
+  userId                 String
+  user                   User                     @relation(fields: [userId], references: [id])
+  SatisfiedWasteReqOrder SatisfiedWasteReqOrder[]
+}
+
+model Contribution {
+  id       String @id @default(cuid())
+  mobile   String
+  address  String
+  city     String
+  state    String
+  pincode  String
+  quantity Int
+
+  wasteRequestId String
+  wasteRequest   WasteRequest @relation(fields: [wasteRequestId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model InnovativeProduct {
+  id            String @id @default(cuid())
+  image         String
+  name          String
+  description   String
+  price         Float
+  quantity      Int
+  materialsUsed String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  orders InnovativeProdOrder[]
+}
+
+model InnovativeProdOrder {
+  id      String @id @default(cuid())
+  amount  Float
+  mobile  String
+  address String
+  city    String
+  state   String
+  pincode String
+  status  String @default("processing")
+
+  innovativeProductId String
+  innovativeProduct   InnovativeProduct @relation(fields: [innovativeProductId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model SatisfiedWasteReqOrder {
+  id      String @id @default(cuid())
+  amount  Float
+  mobile  String
+  address String
+  city    String
+  state   String
+  pincode String
+  status  String @default("processing")
+
+  satisfiedWasteReqId String
+  satisfiedWasteReq   WasteRequest @relation(fields: [satisfiedWasteReqId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model BulkWaste {
+  id                String @id @default(cuid())
+  image             String
+  name              String
+  description       String
+  quantityAvailable Int
+  quantityUnit      String
+  price             Float
+
+  BulkWasteOrder BulkWasteOrder[]
+}
+
+model BulkWasteOrder {
+  id      String @id @default(cuid())
+  amount  Float
+  mobile  String
+  address String
+  city    String
+  state   String
+  pincode String
+  status  String @default("processing")
+
+  bulkWasteId String
+  bulkWaste   BulkWaste @relation(fields: [bulkWasteId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
