@@ -1,0 +1,15 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Environment files
+.env
+
+# Version control
+.gitignore
+
+# Development artifacts
+*.log
+.DS_Store
