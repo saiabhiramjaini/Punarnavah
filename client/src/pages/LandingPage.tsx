@@ -1,4 +1,3 @@
-import householdWasteImage from "../assets/images/householdWaste.png";
 import bulkWasteImage from "../assets/images/bulkWaste.png";
 import artisanImage from "../assets/images/artisan.png";
 import marketPlaceImage from "../assets/images/marketplace.png";
@@ -73,7 +72,7 @@ export const LandingPage = () => {
               <FeatureCard
                 title="Waste Contribution"
                 description="A space for contributing waste materials to support up-cycling and eco-friendly practices."
-                image={householdWasteImage}
+                image={artisanImage}
               />
               <FeatureCard
                 title="Marketplace"
