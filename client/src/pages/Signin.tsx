@@ -11,6 +11,7 @@ import animationData from "../assets/lottie/login.json";
 import bg from "../assets/bg-3.svg";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ErrorMsgComp } from "../components/ErrorMsgComp";
 
 export const Signin = () => {
   const [signinData, setSigninData] = useState<SigninType>({
@@ -75,7 +76,7 @@ export const Signin = () => {
               <p className="mt-8">"The greatest threat to our planet is the belief that someone else will save it."</p>
             </div>
             <form className="space-y-4">
-              <p className="text-red-500 text-center">{error}</p>
+            <ErrorMsgComp error={error!} />
               <InputBox
                 type="text"
                 label="Email"

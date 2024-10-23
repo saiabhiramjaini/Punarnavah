@@ -13,6 +13,7 @@ import { UploadBulkWasteType } from "@abhiram2k03/punarnavah-common";
 import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
 import { Recycle, Leaf, Trash2 } from 'lucide-react'
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const UploadBulkWastePage = () => {
   const [uploadReq, setUploadReq] = useState<UploadBulkWasteType>({
@@ -170,7 +171,7 @@ export const UploadBulkWastePage = () => {
                   name="description"
                   onChange={handleInputChange}
                 />
-                {error && <p className="text-red-500 text-center">{error}</p>}
+                <ErrorMsgComp error={error!} />
                 <div className="pt-4 flex items-center justify-center">
                   <Button text={loading ? "Submitting..." : "List Waste Item"} onClick={handleSubmit} />
                 </div>

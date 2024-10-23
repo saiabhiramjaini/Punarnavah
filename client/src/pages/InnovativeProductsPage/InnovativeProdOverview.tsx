@@ -4,9 +4,9 @@ import axios from "axios";
 import { backendUrl } from "../../utils/config";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import Lottie from "lottie-react";
-import loadingAnimation from "../../assets/lottie/loading.json";
 import toast from "react-hot-toast";
+import { LoadingComp } from "../../components/LoadingComp";
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const InnovativeProdOverview = () => {
   const [data, setData] = useState<InnovativeProductType | null>(null);
@@ -40,27 +40,27 @@ export const InnovativeProdOverview = () => {
   }, [id]);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="min-h-screen w-full">
       <Navbar />
-      <div className="flex justify-center items-center h-[89.5vh] p-4">
+      <div className="flex justify-center items-center p-4 mt-8">
         {loading ? (
-          <div className="flex justify-center items-center w-full h-full">
-            <Lottie animationData={loadingAnimation} className="h-24 w-24"/> 
+          <div className="flex justify-center items-center w-full">
+            <LoadingComp/>
           </div>
         ) : error ? (
-          <div className="flex justify-center items-center w-full h-full text-red-500 text-xl">
-            {error}
-          </div>
+          <ErrorMsgComp error={error!} />
         ) : (
-          <div className="flex flex-col md:flex-row w-full h-2/3 max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden min-h-[600px]">
             {/* Left half containing the image */}
-            <div className="w-full md:w-3/5 p-8 relative bg-gray-100">
+            <div className="w-full md:w-3/5 p-8 bg-gray-100 flex items-center justify-center">
               {data && (
-                <img
-                  src={data.image}
-                  alt={data.name}
-                  className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
-                />
+                <div className="relative w-full h-full max-h-[500px]">
+                  <img
+                    src={data.image}
+                    alt={data.name}
+                    className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                  />
+                </div>
               )}
             </div>
 
@@ -92,8 +92,8 @@ export const InnovativeProdOverview = () => {
                     </p>
                   </div>
                   <button 
-                  onClick={() => navigate(`/innovative-prod/checkout/${data.id}`, { state: { name: data.name, unit: "", price: data.price } })}
-                  className="w-full bg-secondary text-white px-6 py-3 rounded-xl text-xl font-semibold hover:bg-[#7a8968] transition-colors duration-300 transform hover:scale-105">
+                    onClick={() => navigate(`/innovative-prod/checkout/${data.id}`, { state: { name: data.name, unit: "", price: data.price } })}
+                    className="w-full bg-secondary text-white px-6 py-3 rounded-xl text-xl font-semibold hover:bg-[#7a8968] transition-colors duration-300 transform hover:scale-105">
                     Buy Now
                   </button>
                 </div>

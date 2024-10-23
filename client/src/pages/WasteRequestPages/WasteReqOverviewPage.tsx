@@ -7,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import Lottie from "lottie-react";
 import loadingAnimation from "../../assets/lottie/loading.json";
 import toast from "react-hot-toast";
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const WasteReqOverviewPage = () => {
   const [data, setData] = useState<WasteRequestType | null>(null);
@@ -19,15 +20,13 @@ export const WasteReqOverviewPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${backendUrl}/api/v1/waste-req/${id}`
-        );
+        const response = await axios.get(`${backendUrl}/api/v1/waste-req/${id}`);
         setData(response.data.wasteRequest);
       } catch (error: any) {
-        if(error.response.status === 401) {
+        if (error.response.status === 401) {
           toast.error("Unauthorized access. Please login to continue.");
           localStorage.removeItem("token");
-          navigate("/signin")
+          navigate("/signin");
         }
         setError("Failed to fetch data. Please try again.");
         console.error("Error fetching waste request:", error);
@@ -41,27 +40,27 @@ export const WasteReqOverviewPage = () => {
   }, [id]);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="min-h-screen w-full">
       <Navbar />
-      <div className="flex justify-center items-center h-[89.5vh] p-4">
+      <div className="flex justify-center items-center p-4 mt-8">
         {loading ? (
-          <div className="flex justify-center items-center w-full h-full">
-            <Lottie animationData={loadingAnimation} className="h-24 w-24"/> 
+          <div className="flex justify-center items-center w-full">
+            <Lottie animationData={loadingAnimation} className="h-24 w-24" />
           </div>
         ) : error ? (
-          <div className="flex justify-center items-center w-full h-full text-red-500 text-xl">
-            {error}
-          </div>
+          <ErrorMsgComp error={error!} />
         ) : (
-          <div className="flex flex-col md:flex-row w-full h-2/3 max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden min-h-[600px]">
             {/* Left half containing the image */}
-            <div className="w-full md:w-3/5 p-8 relative bg-gray-100 h-full">
+            <div className="w-full md:w-3/5 p-8 bg-gray-100 flex items-center justify-center">
               {data && (
-                <img
-                  src={data.image}
-                  alt={data.name}
-                  className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
-                />
+                <div className="relative w-full h-full max-h-[500px]">
+                  <img
+                    src={data.image}
+                    alt={data.name}
+                    className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                  />
+                </div>
               )}
             </div>
 
@@ -74,20 +73,22 @@ export const WasteReqOverviewPage = () => {
                     <p className="text-[#555555] text-lg">{data.description}</p>
                     <div className="space-y-2">
                       <p className="text-xl">
-                        Required quantity:
+                        Required quantity:{" "}
                         <span className="font-semibold">
-                          {data.remainingQuantity} {data.quantityUnit} <span className="text-sm ">from { data.requiredQuantity} </span>
+                          {data.remainingQuantity} {data.quantityUnit}{" "}
+                          <span className="text-sm">from {data.requiredQuantity}</span>
                         </span>
                       </p>
                     </div>
                     <p className="text-xl">
-                      Price: Rs.{data.price}/- per{" "}
+                      Price: Rs. {data.price}/- per{" "}
                       {data.quantityUnit.slice(0, -1)}
                     </p>
                   </div>
-                  <button 
-                  onClick={()=>{navigate(`/contribution/${data.id}`)}}
-                  className="w-full bg-[#899878] text-white px-6 py-3 rounded-xl text-xl font-semibold hover:bg-[#7a8968] transition-colors duration-300 transform hover:scale-105">
+                  <button
+                    onClick={() => navigate(`/contribution/${data.id}`)}
+                    className="w-full bg-secondary text-white px-6 py-3 rounded-xl text-xl font-semibold hover:bg-[#7a8968] transition-colors duration-300 transform hover:scale-105"
+                  >
                     Contribute
                   </button>
                 </div>

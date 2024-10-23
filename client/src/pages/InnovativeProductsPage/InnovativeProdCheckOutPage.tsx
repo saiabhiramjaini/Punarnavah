@@ -9,6 +9,7 @@ import Navbar from "../../components/Navbar";
 import toast from "react-hot-toast";
 import { Button } from "../../components/Button";
 import { InputBox } from "../../components/InputBox";
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const InnovativeProdCheckOutPage = () => {
   const [formData, setFormData] = useState<CreateInnovativeProdOrderType>({
@@ -92,7 +93,7 @@ export const InnovativeProdCheckOutPage = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-2xl font-semibold mb-4">Contact Information</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <p className="text-red-500 text-center text-xs">{error}</p>}
+          <ErrorMsgComp error={error!} />
             <div>
               <InputBox
                 label="Phone Number"

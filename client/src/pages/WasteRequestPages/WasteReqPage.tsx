@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { WasteRequestType } from "@abhiram2k03/punarnavah-common";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Lottie from "lottie-react";
 import { backendUrl } from "../../utils/config";
 import SearchBar from "../../components/SearchBar";
 import Navbar from "../../components/Navbar";
 import Card from "../../components/Card";
-import loadingAnimation from "../../assets/lottie/loading.json";
+import { LoadingComp } from "../../components/LoadingComp";
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const WasteReqPage = () => {
   const [data, setData] = useState<WasteRequestType[]>([]);
@@ -49,12 +49,10 @@ export const WasteReqPage = () => {
       <main className="container mx-auto px-2 sm:px-4 max-w-7xl">
         {loading ? (
           <div className="flex justify-center items-center min-h-[60vh]">
-            <Lottie animationData={loadingAnimation} className="h-24 w-24"/> 
+            <LoadingComp/>
           </div>
         ) : error ? (
-          <div className="text-center text-red-500 flex justify-center items-center min-h-[60vh]">
-            {error}
-          </div>
+          <ErrorMsgComp error={error!} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
             {filteredData.length > 0 ? (

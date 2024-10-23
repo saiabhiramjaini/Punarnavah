@@ -8,6 +8,7 @@ import { backendUrl } from "../utils/config";
 import animationData from "../assets/lottie/forgot-password.json";
 import Lottie from "lottie-react";
 import toast from "react-hot-toast";
+import { ErrorMsgComp } from "../components/ErrorMsgComp";
 
 export const ForgotPassword = () => {
   const [forgotPasswordData, setForgotPasswordData] = useState<ForgotPasswordType>({
@@ -53,7 +54,7 @@ export const ForgotPassword = () => {
             <p>Enter your email and we'll help you reset your password.</p>
           </div>
           <div className="mt-4 sm:mt-6">
-          <p className="text-red-500 text-center">{error}</p>
+          <ErrorMsgComp error={error!} />
             <InputBox
               type="email"
               label="Email"

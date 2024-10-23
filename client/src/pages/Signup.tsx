@@ -11,6 +11,7 @@ import Lottie from "lottie-react";
 import animationData from "../assets/lottie/Signup-a1.json";
 import bg from "../assets/bg-3.svg";
 import toast from "react-hot-toast";
+import { ErrorMsgComp } from "../components/ErrorMsgComp";
 
 export const Signup = () => {
   const [signupData, setSignupData] = useState<SignupType>({
@@ -79,7 +80,7 @@ export const Signup = () => {
               <p className="mt-4">"Waste isn't waste until we waste it."</p>
             </div>
             <form className="space-y-4">
-              <p className="text-red-500 text-center">{error}</p>
+              <ErrorMsgComp error={error!} />
               <InputBox
                 type="text"
                 label="Username"

@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
 
 import { Recycle, Leaf, Droplet } from 'lucide-react'
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const UploadReqPage = () => {
   const [uploadReq, setUploadReq] = useState<UploadWasteRequestType>({
@@ -144,7 +145,7 @@ export const UploadReqPage = () => {
                 <InputBox
                   label="Name"
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder="Name of your waste material"
                   name="name"
                   onChange={handleInputChange}
                 />
@@ -175,7 +176,7 @@ export const UploadReqPage = () => {
                 name="description"
                 onChange={handleInputChange}
               />
-              {error && <p className="text-red-500 text-center">{error}</p>}
+              <ErrorMsgComp error={error!} />
               <div className="pt-4 flex items-center justify-center">
                 <Button text={loading ? "Submitting..." : "Submit Request"} onClick={handleSubmit} />
               </div>

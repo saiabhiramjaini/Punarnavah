@@ -8,6 +8,7 @@ import { Button } from "../components/Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { LoadingComp } from "../components/LoadingComp";
+import { ErrorMsgComp } from "../components/ErrorMsgComp";
 
 type Section =
   | "wasteRequests"
@@ -183,9 +184,7 @@ export const ProfilePage = () => {
     );
   if (error)
     return (
-      <div className="min-h-screen flex justify-center items-center text-red-600">
-        {error}
-      </div>
+      <ErrorMsgComp error={error!} />
     );
 
   return (

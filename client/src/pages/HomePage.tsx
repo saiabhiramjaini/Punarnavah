@@ -23,9 +23,21 @@ export const HomePage = () => {
 
   return (
     <>
-      <div className="h-screen w-screen bg-white">
+      <div className="h-screen w-screen bg-white flex flex-col justify-between">
         <Navbar />
-        <div className="flex m-8 justify-center items-end bg-white">
+        
+        <motion.div 
+          className="text-center py-6"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-3xl font-bold tracking-wide text-gray-800">
+            Punarnavah - Transforming Waste into Opportunity
+          </h1>
+        </motion.div>
+
+        <div className="flex">
           <div className="w-full h-full flex">
             <div className="flex flex-col items-center justify-between space-y-4 w-1/3">
               <motion.div

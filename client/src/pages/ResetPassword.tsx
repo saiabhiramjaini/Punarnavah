@@ -7,6 +7,7 @@ import { backendUrl } from "../utils/config";
 import { SubHeading } from "../components/SubHeading";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ErrorMsgComp } from "../components/ErrorMsgComp";
 
 
 export const ResetPassword = () => {
@@ -51,7 +52,7 @@ export const ResetPassword = () => {
           <SubHeading text={"Change your Password"} />
         </div>
         <div className="space-y-4">
-          <p className="text-red-500 text-center">{error}</p>
+        <ErrorMsgComp error={error!} />
           <InputBox
             type="password"
             label="New password"

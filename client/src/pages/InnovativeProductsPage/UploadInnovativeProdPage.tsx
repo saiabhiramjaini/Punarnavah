@@ -13,6 +13,7 @@ import { UploadImage } from "../../components/UploadImage";
 import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
 import { Lightbulb, Zap, Atom } from 'lucide-react'
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const UploadInnovativeProdPage = () => {
   const [uploadReq, setUploadReq] = useState<UploadInnovativeProductType>({
@@ -113,15 +114,15 @@ export const UploadInnovativeProdPage = () => {
       <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Left section for image upload */}
-          <div className="w-full lg:w-2/5 p-8 bg-gradient-to-br from-purple-100 to-blue-100 rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none relative overflow-hidden">
+          <div className="w-full lg:w-2/5 p-8 bg-gradient-to-br from-green-100 to-blue-100  rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-full opacity-10">
               <Lightbulb className="absolute top-4 left-4 w-16 h-16 text-yellow-600" />
               <Zap className="absolute bottom-4 right-4 w-16 h-16 text-blue-600" />
               <Atom className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 text-purple-600" />
             </div>
             <div className="relative z-10">
-              <h2 className="text-3xl font-bold text-purple-800 mb-4">Showcase Your Innovation</h2>
-              <p className="text-purple-700 mb-6">Upload an image of your groundbreaking product!</p>
+              <h2 className="text-3xl font-bold text-green-800 mb-4">Showcase Your Innovation</h2>
+              <p className="text-green-700 mb-6">Upload an image of your groundbreaking product!</p>
               <UploadImage name="" handleImageChange={handleImageChange} />
             </div>
           </div>
@@ -174,7 +175,7 @@ export const UploadInnovativeProdPage = () => {
                 name="materialsUsed"
                 onChange={handleInputChange}
               />
-              {error && <p className="text-red-500 text-center">{error}</p>}
+             <ErrorMsgComp error={error!} />
               <div className="pt-4 flex items-center justify-center">
                 <Button text={loading ? "Submitting..." : "List Product"} onClick={handleSubmit} />
               </div>

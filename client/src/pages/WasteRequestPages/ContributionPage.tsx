@@ -6,10 +6,11 @@ import { Button } from "../../components/Button";
 import axios from "axios";
 import { backendUrl } from "../../utils/config";
 import Lottie from "lottie-react";
-import animationData from '../../assets/lottie/ContAnime.json';
-import loadingAnimation from "../../assets/lottie/loading.json";
+import animationData from '../../assets/lottie/contribute.json';
 import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
+import { LoadingComp } from "../../components/LoadingComp";
+import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 
 export const ContributionPage = () => {
   const [data, setData] = useState<UploadContributionType>({
@@ -86,7 +87,7 @@ export const ContributionPage = () => {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
         <div className="w-64 h-64">
-        <Lottie animationData={loadingAnimation} className="h-24 w-24"/> 
+        <LoadingComp/>
         </div>
       </div>
     );
@@ -97,7 +98,7 @@ export const ContributionPage = () => {
       <Navbar />
       <div className="flex flex-col lg:flex-row flex-grow">
         {/* Left Section */}
-        <div className="lg:w-1/2 p-4 md:p-8  bg-gradient-to-br from-[#e0e5dd] to-[#f5f7f3] flex flex-col justify-center">
+        <div className="lg:w-1/2 p-4 md:p-8  flex flex-col justify-center">
           <div className="max-w-xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800">
               JOIN THE CIRCULAR ECONOMY TODAY
@@ -175,11 +176,7 @@ export const ContributionPage = () => {
                 />
               </div>
 
-              {error && (
-                <div className="text-red-500 text-center mt-4">
-                  {error}
-                </div>
-              )}
+              <ErrorMsgComp error={error!} />
             </div>
           </div>
         </div>

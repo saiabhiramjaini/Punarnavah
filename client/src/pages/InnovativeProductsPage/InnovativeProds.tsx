@@ -6,8 +6,8 @@ import Card from '../../components/Card';
 import Navbar from '../../components/Navbar';
 import SearchBar from '../../components/SearchBar';
 import { useNavigate } from 'react-router-dom';
-import loadingAnimation from '../../assets/lottie/loading.json';
-import Lottie from 'lottie-react';
+import { LoadingComp } from '../../components/LoadingComp';
+import { ErrorMsgComp } from '../../components/ErrorMsgComp';
 
 export const InnovativeProds = () => {
   const [data, setData] = useState<InnovativeProductType[]>([]);
@@ -49,12 +49,10 @@ export const InnovativeProds = () => {
       <main className="container mx-auto px-2 sm:px-4 max-w-7xl">
         {loading ? (
           <div className="flex justify-center items-center min-h-[60vh]">
-            <Lottie animationData={loadingAnimation} className="h-24 w-24"/> 
+            <LoadingComp/>
           </div>
         ) : error ? (
-          <div className="text-center text-red-500 flex justify-center items-center min-h-[60vh]">
-            {error}
-          </div>
+          <ErrorMsgComp error={error!} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
             {filteredData.length > 0 ? (
