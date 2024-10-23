@@ -13,6 +13,7 @@ import authRouter from './routes/authRoutes';
 import satisfiedWasteOrdersRouter from './routes/satisfiedWasteOrdersRoutes';
 import innovativeProdOrdersRouter from './routes/innovativeProdOrdersRouter';
 import bulkWasteOrdersRouter from './routes/bulkWasteOrdersRoutes';
+import paymentRouter from './routes/paymentRoutes';
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use("/api/v1/satisfied-waste-orders", satisfiedWasteOrdersRouter);
 app.use("/api/v1/innovative-prod-orders", innovativeProdOrdersRouter);
 app.use("/api/v1/bulk-waste-orders", bulkWasteOrdersRouter);
 app.use("/api/v1/bulk-waste", bulkWasteRouter);
+app.use("/api/v1/payment", paymentRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

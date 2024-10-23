@@ -1,14 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import {
-  CreateInnovativeProdOrderType,
-} from "@abhiram2k03/punarnavah-common";
-import { useNavigate, useParams, useLocation  } from "react-router-dom";
+import { CreateInnovativeProdOrderType } from "@abhiram2k03/punarnavah-common";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { backendUrl } from "../../utils/config";
 import Navbar from "../../components/Navbar";
 import toast from "react-hot-toast";
 import { Button } from "../../components/Button";
 import { InputBox } from "../../components/InputBox";
+// @ts-ignore
+import { load } from "@cashfreepayments/cashfree-js";
 
 export const InnovativeProdCheckOutPage = () => {
   const [formData, setFormData] = useState<CreateInnovativeProdOrderType>({
@@ -30,6 +30,8 @@ export const InnovativeProdCheckOutPage = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const [orderId, setOrderId] = useState<string | null>(null);
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -39,27 +41,100 @@ export const InnovativeProdCheckOutPage = () => {
 
   const totalQuantity = 1;
   const totalPrice = price * totalQuantity;
-  const deliveryCharges = 0.00;
+  const deliveryCharges = 0.0;
   const grandTotal = totalPrice + deliveryCharges;
+
+  let cashfree: any;
+
+  let initializeSDK = async () => {
+    cashfree = await load({
+      mode: "sandbox",
+    });
+  };
+
+  initializeSDK();
+
+  const getSessionId = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/v1/payment`);
+      if (response.data && response.data.payment_session_id) {
+        console.log(response.data.payment_session_id);
+        setOrderId(response.data.orderId);
+        return response.data.payment_session_id;
+
+      }
+    } catch (error: any) {
+      console.error("Error occurred", error);
+    }
+  };
+
+
+  const verifyPayment = async function(orderId: string | null) {
+    try {
+
+      let res = await axios.post(`${backendUrl}/api/v1/verify`, {
+        orderId: orderId
+      });
+
+      if(res && res.data) {
+        alert("payment verified");
+      }
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+
+  const handleClick = async (e: any) =>{
+    e.preventDefault();
+    console.log("clicked");
+    try {
+      let sessionId = await getSessionId();
+      let checkoutOptions = {
+        paymentSessionId: sessionId,
+        redirectTarget: "_modal"
+      }
+
+      cashfree.checkout(checkoutOptions).then(() => {
+        console.log("payment initiated");
+
+        verifyPayment(orderId)
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     setLoading(true);
-  
+
+    const sessionId = getSessionId();
+
+    let checkoutOptions = {
+      paymentSessionId: sessionId,
+      redirectTarget: "_modal",
+    };
+
+    cashfree.checkout(checkoutOptions);
+
     const updatedFormData = {
       ...formData,
       amount: grandTotal,
       innovativeProductId: innovativeProductId,
     };
-  
+
     try {
-    
       const response = await axios.post(
         `${backendUrl}/api/v1/innovative-prod-orders`,
         updatedFormData
       );
-  
+
       if (response.status === 201) {
         toast.success("Order placed successfully");
         navigate(`/profile`);
@@ -73,14 +148,15 @@ export const InnovativeProdCheckOutPage = () => {
         localStorage.removeItem("token");
         navigate("/signin");
       } else {
-        const errorMessage = error.response?.data?.errors?.[0]?.message ||
+        const errorMessage =
+          error.response?.data?.errors?.[0]?.message ||
           error.response?.data?.message ||
           "An error occurred";
         toast.error(errorMessage);
       }
       console.error("Error occurred", error);
       setError("Order was not placed. Please try again.");
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -91,8 +167,10 @@ export const InnovativeProdCheckOutPage = () => {
       <div className="grid md:grid-cols-2 gap-8 pt-8 p-5">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-2xl font-semibold mb-4">Contact Information</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <p className="text-red-500 text-center text-xs">{error}</p>}
+         
+            {error && (
+              <p className="text-red-500 text-center text-xs">{error}</p>
+            )}
             <div>
               <InputBox
                 label="Phone Number"
@@ -145,9 +223,12 @@ export const InnovativeProdCheckOutPage = () => {
               />
             </div>
             <div className="flex justify-center items-center">
-              <Button text={loading ? "Placing..." : "Place Order"} onClick={() => {}} />
+              <Button
+                text={loading ? "Placing..." : "Place Order"}
+                onClick={handleClick}
+              />
             </div>
-          </form>
+
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md">
@@ -184,4 +265,3 @@ export const InnovativeProdCheckOutPage = () => {
     </div>
   );
 };
-

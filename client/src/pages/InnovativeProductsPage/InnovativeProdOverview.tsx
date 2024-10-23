@@ -75,7 +75,15 @@ export const InnovativeProdOverview = () => {
                       <p className="text-xl">
                         Required quantity:{" "}
                         <span className="font-semibold">
-                          {data.quantity} {data.materialsUsed}
+                          {data.quantity} 
+                        </span>
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-xl">
+                       Materials Used:{" "}
+                        <span className="font-semibold">
+                          {data.materialsUsed} 
                         </span>
                       </p>
                     </div>
