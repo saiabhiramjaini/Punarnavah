@@ -85,11 +85,9 @@ export const ContributionPage = () => {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-        <div className="w-64 h-64">
-        <LoadingComp/>
-        </div>
-      </div>
+      <div className="flex justify-center items-center min-h-[60vh]">
+            <LoadingComp/>
+          </div>
     );
   }
 

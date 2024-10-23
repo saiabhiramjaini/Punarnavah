@@ -4,10 +4,9 @@ import axios from "axios";
 import { backendUrl } from "../../utils/config";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import Lottie from "lottie-react";
-import loadingAnimation from "../../assets/lottie/loading.json";
 import toast from "react-hot-toast";
 import { ErrorMsgComp } from "../../components/ErrorMsgComp";
+import { LoadingComp } from "../../components/LoadingComp";
 
 export const WasteReqOverviewPage = () => {
   const [data, setData] = useState<WasteRequestType | null>(null);
@@ -20,7 +19,9 @@ export const WasteReqOverviewPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/v1/waste-req/${id}`);
+        const response = await axios.get(
+          `${backendUrl}/api/v1/waste-req/${id}`
+        );
         setData(response.data.wasteRequest);
       } catch (error: any) {
         if (error.response.status === 401) {
@@ -44,8 +45,8 @@ export const WasteReqOverviewPage = () => {
       <Navbar />
       <div className="flex justify-center items-center p-4 mt-8">
         {loading ? (
-          <div className="flex justify-center items-center w-full">
-            <Lottie animationData={loadingAnimation} className="h-24 w-24" />
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <LoadingComp />
           </div>
         ) : error ? (
           <ErrorMsgComp error={error!} />
@@ -76,7 +77,9 @@ export const WasteReqOverviewPage = () => {
                         Required quantity:{" "}
                         <span className="font-semibold">
                           {data.remainingQuantity} {data.quantityUnit}{" "}
-                          <span className="text-sm">from {data.requiredQuantity}</span>
+                          <span className="text-sm">
+                            from {data.requiredQuantity}
+                          </span>
                         </span>
                       </p>
                     </div>

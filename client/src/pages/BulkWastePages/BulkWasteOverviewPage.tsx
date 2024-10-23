@@ -4,10 +4,9 @@ import axios from "axios";
 import { backendUrl } from "../../utils/config";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import Lottie from "lottie-react";
-import loadingAnimation from "../../assets/lottie/loading.json";
 import toast from "react-hot-toast";
 import { ErrorMsgComp } from "../../components/ErrorMsgComp";
+import { LoadingComp } from "../../components/LoadingComp";
 
 export const BulkWasteOverviewPage = () => {
   const [data, setData] = useState<BulkWasteType | null>(null);
@@ -44,9 +43,9 @@ export const BulkWasteOverviewPage = () => {
       <Navbar />
       <div className="flex justify-center items-center p-4 mt-8">
         {loading ? (
-          <div className="flex justify-center items-center w-full">
-            <Lottie animationData={loadingAnimation} className="h-24 w-24" />
-          </div>
+          <div className="flex justify-center items-center min-h-[60vh]">
+          <LoadingComp/>
+        </div>
         ) : error ? (
           <ErrorMsgComp error={error!} />
         ) : (

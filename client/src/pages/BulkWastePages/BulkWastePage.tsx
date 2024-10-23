@@ -49,8 +49,8 @@ export const BulkWastePage = () => {
       <main className="container mx-auto px-2 sm:px-4 max-w-7xl">
         {loading ? (
           <div className="flex justify-center items-center min-h-[60vh]">
-            <LoadingComp/>
-          </div>
+          <LoadingComp/>
+        </div>
         ) : error ? (
           <ErrorMsgComp error={error!} />
         ) : (

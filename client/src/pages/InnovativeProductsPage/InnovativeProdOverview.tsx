@@ -44,9 +44,9 @@ export const InnovativeProdOverview = () => {
       <Navbar />
       <div className="flex justify-center items-center p-4 mt-8">
         {loading ? (
-          <div className="flex justify-center items-center w-full">
-            <LoadingComp/>
-          </div>
+          <div className="flex justify-center items-center min-h-[60vh]">
+          <LoadingComp/>
+        </div>
         ) : error ? (
           <ErrorMsgComp error={error!} />
         ) : (
