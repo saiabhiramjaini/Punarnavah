@@ -17,49 +17,14 @@ require('dotenv').config();
 const app = express();
 
 
-// Define allowed origins
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  'https://punarnavah.abhiramverse.tech',
-  // Add any other allowed origins here
-];
+app.use(cors(
+  {
+    origin: "https://punarnavah.abhiramverse.tech/",
+    credentials: true,
+  }
+));
 
-// CORS configuration
-const corsOptions = {
-  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  credentials: true,
-  maxAge: 86400, // 24 hours
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
 
-// Apply CORS middleware
-app.use(cors(corsOptions));
-
-// Additional security headers middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-// app.use(cors(
-//   {
-//     origin: "https://punarnavah.abhiramverse.tech/",
-//     credentials: true,
-//   }
-// ));
 app.use(express.json());
 app.use(cookieParser());
 
