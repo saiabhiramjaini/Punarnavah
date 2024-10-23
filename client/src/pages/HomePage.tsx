@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import homeImage from "../assets/images/home1.png";
+import homeImage from "../assets/images/home.png";
 import Navbar from "../components/Navbar";
 import Image1 from "../assets/images/1.png";
 import Image2 from "../assets/images/2.png";
