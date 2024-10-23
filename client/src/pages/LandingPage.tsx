@@ -1,5 +1,6 @@
 import bulkWasteImage from "../assets/images/bulkWaste.png";
 import artisanImage from "../assets/images/artisan.png";
+import contribution from "../assets/images/contribution.png";
 import marketPlaceImage from "../assets/images/marketplace.png";
 import logo from "../assets/images/logo.png";
 import { BsTwitterX } from "react-icons/bs";
@@ -72,7 +73,7 @@ export const LandingPage = () => {
               <FeatureCard
                 title="Waste Contribution"
                 description="A space for contributing waste materials to support up-cycling and eco-friendly practices."
-                image={artisanImage}
+                image={contribution}
               />
               <FeatureCard
                 title="Marketplace"
