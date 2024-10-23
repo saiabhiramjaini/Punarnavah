@@ -318,7 +318,7 @@ export const InnovativeProdCheckOutPage = () => {
 
   // Initialize Cashfree SDK
   const initializeSDK = async () => {
-    cashfree = await load({ mode: "sandbox" });
+    cashfree = await load({ mode: "production" });
   };
 
   // Call initialize on component mount

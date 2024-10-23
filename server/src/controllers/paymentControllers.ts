@@ -5,7 +5,7 @@ import { Cashfree } from "cashfree-pg";
 // Initialize Cashfree configuration
 Cashfree.XClientId = process.env.CLIENT_ID;
 Cashfree.XClientSecret = process.env.CLIENT_SECRET;
-Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
 
 const generateOrderId = (): string => {
   const uniqueId = crypto.randomBytes(16).toString("hex");
