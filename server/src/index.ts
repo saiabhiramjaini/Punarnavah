@@ -19,7 +19,7 @@ const app = express();
 app.use(cors(
   {
     origin: [process.env.CLIENT_URL!,
-      "https://punarnavah-server.abhiramverse.tech/"
+      "https://punarnavah.abhiramverse.tech/"
     ],
     credentials: true,
   }
