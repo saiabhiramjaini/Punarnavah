@@ -1,4 +1,8 @@
-import householdImage from "../assets/images/householdwaste.png";
+import householdImage from "../assets/images/householdWaste.png";
+import bulkWasteImage from "../assets/images/bulkWaste.png";
+import artisanImage from "../assets/images/artisan.png";
+import marketPlaceImage from "../assets/images/marketplace.png";
+import logo from "../assets/images/logo.png";
 import { BsTwitterX } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
 import { SiFacebook } from "react-icons/si";
@@ -38,8 +42,8 @@ export const LandingPage = () => {
               waste upcycling.
             </div>
           </div>
-          <div className="flex flex-col justify-center w-full md:w-1/3 min-h-[200px]">
-            for lottie animation or logo
+          <div className="flex flex-col justify-center items-center sm:items-end w-full md:w-1/3 min-h-[200px]">
+            <img src={logo} alt=""  className="h-72 w-72"/>
           </div>
         </div>
 
@@ -63,8 +67,8 @@ export const LandingPage = () => {
             <div className="bg-white w-full md:w-2/3 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-20 p-6 lg:p-20">
               <FeatureCard
                 title="Artisans' Hub"
-                description=" A platform for artisans to source sustainable raw materials for their creations."
-                image={householdImage}
+                description="A platform that enables artisans to source sustainable raw materials for their creations and showcase their unique, often overlooked skills by crafting innovative items." 
+                image={artisanImage}
               />
               <FeatureCard
                 title="Waste Contribution"
@@ -74,12 +78,12 @@ export const LandingPage = () => {
               <FeatureCard
                 title="Marketplace"
                 description="A marketplace for innovative, handcrafted products by artisans using waste materials to support the circular economy."
-                image={householdImage}
+                image={marketPlaceImage}
               />
               <FeatureCard
                 title="Bulk Waste"
                 description="Facilitating access to municipal solid waste and managing it in bulk, either supplying raw materials to industries or providing resources to artisans for creative upcycling."
-                image={householdImage}
+                image={bulkWasteImage}
               />
             </div>
           </div>

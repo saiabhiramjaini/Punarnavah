@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "./Button";
 import { IoPersonSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/logo.png";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,8 +30,8 @@ export const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center">
           <button onClick={() => {navigate("/home")}} aria-label="Homepage">
-            <div className="text-2xl font-limeLight font-semibold">
-              PUNARNAVAH
+            <div className="text-2xl font-limeLight font-semibold flex justify-center items-center gap-3">
+              <img src={logo} className="h-12 w-12"/>PUNARNAVAH
             </div>
           </button>
         </div>

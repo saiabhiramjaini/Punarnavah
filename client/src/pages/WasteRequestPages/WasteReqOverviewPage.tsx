@@ -53,14 +53,14 @@ export const WasteReqOverviewPage = () => {
             {error}
           </div>
         ) : (
-          <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row w-full h-2/3 max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden">
             {/* Left half containing the image */}
-            <div className="w-full md:w-3/5 p-8 relative bg-gray-100">
+            <div className="w-full md:w-3/5 p-8 relative bg-gray-100 h-full">
               {data && (
                 <img
                   src={data.image}
                   alt={data.name}
-                  className="w-full h-full object-cover rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                  className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
                 />
               )}
             </div>

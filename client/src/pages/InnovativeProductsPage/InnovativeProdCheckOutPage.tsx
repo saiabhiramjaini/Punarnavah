@@ -86,7 +86,7 @@ export const InnovativeProdCheckOutPage = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="w-screen h-screen">
       <Navbar />
       <div className="grid md:grid-cols-2 gap-8 pt-8 p-5">
         <div className="bg-white p-6 rounded-lg shadow-md">

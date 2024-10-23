@@ -40,7 +40,7 @@ export const InnovativeProdOverview = () => {
   }, [id]);
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="w-screen h-screen">
       <Navbar />
       <div className="flex justify-center items-center h-[89.5vh] p-4">
         {loading ? (
@@ -52,14 +52,14 @@ export const InnovativeProdOverview = () => {
             {error}
           </div>
         ) : (
-          <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row w-full h-2/3 max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden">
             {/* Left half containing the image */}
             <div className="w-full md:w-3/5 p-8 relative bg-gray-100">
               {data && (
                 <img
                   src={data.image}
                   alt={data.name}
-                  className="w-full h-full object-cover rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                  className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
                 />
               )}
             </div>

@@ -107,7 +107,7 @@ export const UploadInnovativeProdPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="min-h-screen">
     <Navbar />
     <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
