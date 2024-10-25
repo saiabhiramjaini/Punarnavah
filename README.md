@@ -20,7 +20,6 @@ A sustainable waste management platform connecting households, artisans, and mun
 ### Frontend
 - ReactJS
 - TailwindCSS
-- Redux
 - TypeScript
 
 ### Backend
@@ -39,15 +38,19 @@ A sustainable waste management platform connecting households, artisans, and mun
 - Vercel
 
 ### Integrations
-- Razorpay Payment Gateway
 - Cloudinary for Media Storage
-- Machine Learning & Deep Learning Models
 
 ## 📦 NPM Package
 We've published a common package for schema validation and type safety:
 - Package Name: `@abhiram2k03/punarnavah-common`
 - Built with TypeScript and Zod
 - Ensures consistency across frontend and backend
+
+## ⚙️ Architecture
+
+![image](https://github.com/user-attachments/assets/ab3f2117-db60-443d-b718-c9b16bb34cb0)
+
+![image](https://github.com/user-attachments/assets/11082e58-0117-4e19-8e72-d167eb2afa6b)
 
 ## 🔗 Important Links
 
