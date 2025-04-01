@@ -1,6 +1,9 @@
 # Use an official Node.js runtime as the base image
 FROM node:20-alpine
 
+# Install dependencies required for Prisma
+RUN apk add --no-cache openssl1.1-compat
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -13,10 +16,7 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Install TypeScript globally (alternative approach)
-RUN npm install -g typescript
-
-# Install the prisma ORM
+# Generate Prisma client
 RUN npx prisma generate
 
 # Build the TypeScript code
