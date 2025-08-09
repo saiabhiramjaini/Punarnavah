@@ -20,7 +20,7 @@ const app = express();
 const corsOptions = {
   origin: [
     process.env.CLIENT_URL, 
-    'https://punarnavah.abhiramverse.tech',
+    'https://punarnavah.abhiramtech.in',
     'https://punarnavah.vercel.app'
   ].filter(Boolean) as string[],
   credentials: true,
