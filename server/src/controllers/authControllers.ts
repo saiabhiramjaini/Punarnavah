@@ -35,7 +35,12 @@ export const signup = async (req: Request, res: Response)=>{
         })
 
         const token = jwt.sign({ userId: saveUser.id }, process.env.JWT_SECRET!, { expiresIn: "1d" });
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token, { 
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        });
         
         return res.status(201).json({message: "User created Successfully", token})
     }
@@ -69,7 +74,12 @@ export const signin = async (req: Request, res: Response)=>{
         }
 
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!);
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token, { 
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        });
         return res.status(201).json({message: "Signin successful", token})
     }
     catch (error: any) {
@@ -98,7 +108,12 @@ export const forgotPassword = async(req: Request, res:Response)=>{
         }
 
         const token = jwt.sign({ userId: existingUser.id }, process.env.JWT_SECRET!, { expiresIn: "1d" });
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token, { 
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        });
 
         const text = `${process.env.CLIENT_URL}/resetPassword/${token}`;
         const emailResult = await sendEmail(email, "Reset password", text);
@@ -165,6 +180,10 @@ export const resetPassword = async (req: AuthenticatedRequest, res: Response) =>
 
 
 export const logout = async(req: AuthenticatedRequest, res: Response)=>{
-    res.clearCookie('token');
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
     return res.status(200).json({ msg: "Logged out successfully" });
 }

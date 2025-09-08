@@ -24,8 +24,9 @@ const corsOptions = {
     'https://punarnavah.vercel.app'
   ].filter(Boolean) as string[],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  exposedHeaders: ['set-cookie']
 };
 
 app.use(cors(corsOptions));
