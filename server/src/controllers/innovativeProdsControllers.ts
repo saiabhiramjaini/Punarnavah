@@ -1,29 +1,27 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { Response } from 'express';
 import { InnovativeProductSchema, UploadInnovativeProductSchema } from "@abhiram2k03/punarnavah-common";
 import { AuthenticatedRequest } from '../utils/types';
 import { z } from 'zod';
 
-const prisma = new PrismaClient();
-
 export const uploadInnovativeProd = async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const { image, name, description, price, quantity, materialsUsed } = req.body;   
+        const { image, name, description, price, quantity, materialsUsed } = req.body;
 
         const userId = req.user?.id;
 
         const validatedInnovativeProd = UploadInnovativeProductSchema.parse({
             image,
-            name, 
-            description, 
-            price, 
-            quantity, 
-            materialsUsed, 
+            name,
+            description,
+            price,
+            quantity,
+            materialsUsed,
             userId
         })
 
         const existingProduct = await prisma.innovativeProduct.findFirst({
-            where: { 
+            where: {
                 AND: [
                     { name },
                     { userId: validatedInnovativeProd.userId }
@@ -32,8 +30,8 @@ export const uploadInnovativeProd = async (req: AuthenticatedRequest, res: Respo
         });
 
         if (existingProduct) {
-            return res.status(409).json({ 
-                message: "A Product with this name already exists for the user" 
+            return res.status(409).json({
+                message: "A Product with this name already exists for the user"
             });
         }
 
@@ -98,7 +96,7 @@ export const getInnovativeProd = async (req: Request, res: Response) => {
 }
 
 export const getInnovativeProdById = async (req: AuthenticatedRequest, res: Response) => {
-    try{
+    try {
 
         const id = req.params.id;
 

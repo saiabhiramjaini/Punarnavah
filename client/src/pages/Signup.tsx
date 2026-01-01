@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import { Button } from "../components/Button";
-import { Heading } from "../components/Heading";
-import { InputBox } from "../components/InputBox";
-import { TextLink } from "../components/TextLink";
 import { useState } from "react";
 import axios from "axios";
 import { SignupType } from "@abhiram2k03/punarnavah-common";
 import { backendUrl } from "../utils/config";
 import Lottie from "lottie-react";
 import animationData from "../assets/lottie/Signup-a1.json";
-import bg from "../assets/bg-3.svg";
 import toast from "react-hot-toast";
-import { ErrorMsgComp } from "../components/ErrorMsgComp";
+import { useNavigate, Link } from "react-router-dom";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 export const Signup = () => {
   const [signupData, setSignupData] = useState<SignupType>({
@@ -19,19 +19,20 @@ export const Signup = () => {
     email: "",
     password: "",
     cPassword: ""
-  })
+  });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true)
-    setError("")
+    setLoading(true);
+    setError("");
     try {
       const response = await axios.post(`${backendUrl}/api/v1/auth/signup`, {
-
         username: signupData.username,
         email: signupData.email,
         password: signupData.password,
@@ -40,73 +41,135 @@ export const Signup = () => {
       if (response.status === 201) {
         localStorage.setItem("token", response.data.token);
         navigate('/home');
-      } else{
+      } else {
         toast.error(response.data.msg);
-        setError("Signup Unsuccessful. Please try again.")
+        setError("Signup Unsuccessful. Please try again.");
       }
     } catch (e: any) {
       toast.error(e.response.data.msg);
-      setError("Signup Unsuccessful. Please try again.")
+      setError("Signup Unsuccessful. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div className="flex justify-center items-center min-h-screen p-4">
-        <div className="bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl">
-          {/* Left section for design */}
-          <div className="w-full md:w-1/2 p-6 hidden md:flex flex-col justify-center items-center bg-gray-100 rounded-l-3xl">
-            <div className="w-full h-auto">
-              <Lottie animationData={animationData} />
-            </div>
+    <div className="min-h-screen bg-background flex">
+      {/* Left section - Lottie Animation */}
+      <div className="hidden lg:flex lg:w-1/2 bg-primary/80 items-center justify-center p-12">
+        <div className="max-w-md">
+          <div className="w-full">
+            <Lottie animationData={animationData} />
+          </div>
+          <h2 className="text-2xl font-bold text-secondary-foreground mt-8 text-center">
+            Join the Movement
+          </h2>
+          <p className="text-secondary-foreground/80 mt-2 text-center">
+            "Waste isn't waste until we waste it."
+          </p>
+        </div>
+      </div>
+
+      {/* Right section - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-foreground">
+              Create Account
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Start your journey towards sustainable living
+            </p>
           </div>
 
-          {/* Right section for the form */}
-          <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
-            <div className="text-center mb-8">
-              <Heading text="Create an Account" />
-              <p className="mt-4">"Waste isn't waste until we waste it."</p>
-            </div>
-            <form className="space-y-4">
-              <ErrorMsgComp error={error!} />
-              <InputBox
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
                 type="text"
-                label="Username"
+                placeholder="Enter your username"
+                value={signupData.username}
                 onChange={(e) => setSignupData({ ...signupData, username: e.target.value })}
-                placeholder="Enter your username" name={""} />
-              <InputBox
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
                 type="email"
-                label="Email"
+                placeholder="Enter your email"
+                value={signupData.email}
                 onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
-                placeholder="Enter your email" name={""} />
-              <InputBox
-                type="password"
-                label="Password"
-                onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
-                placeholder="Enter your password" name={""} />
-              <InputBox
-                type="password"
-                label="Confirm Password"
-                onChange={(e) => setSignupData({ ...signupData, cPassword: e.target.value })}
-                placeholder="Confirm your password" name={""} />
-              <div className="flex items-center justify-center">
-                <Button text={loading? "Submitting..." : "Submit"} onClick={handleSubmit} />
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={signupData.password}
+                  onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
-            </form>
-            <div className="mt-4 text-right">
-              <TextLink text="Already have an account?" linkTo="/signin" />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="cPassword">Confirm Password</Label>
+              <div className="relative">
+                <Input
+                  id="cPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm your password"
+                  value={signupData.cPassword}
+                  onChange={(e) => setSignupData({ ...signupData, cPassword: e.target.value })}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Creating account..." : "Create Account"}
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <span className="text-muted-foreground">Already have an account? </span>
+            <Link to="/signin" className="text-primary font-medium hover:underline">
+              Sign in
+            </Link>
+          </div>
+
+          {/* Mobile Lottie */}
+          <div className="mt-8 lg:hidden">
+            <div className="w-32 h-32 mx-auto">
+              <Lottie animationData={animationData} />
             </div>
           </div>
         </div>

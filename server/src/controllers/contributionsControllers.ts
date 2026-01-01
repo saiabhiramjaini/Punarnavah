@@ -1,10 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { Response } from 'express';
 import { z } from 'zod';
 import { UploadContributionSchema } from "@abhiram2k03/punarnavah-common";
 import { AuthenticatedRequest } from '../utils/types';
-
-const prisma = new PrismaClient();
 
 export const contribute = async (req: AuthenticatedRequest, res: Response) => {
     try {
@@ -65,7 +63,7 @@ export const contribute = async (req: AuthenticatedRequest, res: Response) => {
                     pincode: validateContribute.pincode,
                     quantity: validateContribute.quantity,
                     wasteRequestId: validateContribute.wasteRequestId,
-                    userId: validateContribute.userId!, 
+                    userId: validateContribute.userId!,
                 }
             })
         ]);

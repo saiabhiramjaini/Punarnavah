@@ -3,11 +3,9 @@ import artisanImage from "../assets/images/artisan.png";
 import contribution from "../assets/images/contribution.png";
 import marketPlaceImage from "../assets/images/marketplace.png";
 import logo from "../assets/images/logo.png";
-import { BsTwitterX } from "react-icons/bs";
-import { BsInstagram } from "react-icons/bs";
-import { SiFacebook } from "react-icons/si";
 import { FeatureCard } from "../components/FeatureCard";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../components/ui/button";
 
 export const LandingPage = () => {
 
@@ -16,39 +14,67 @@ export const LandingPage = () => {
   return (
     <>
       <div className="min-h-screen w-full overflow-x-hidden">
-        {/* Hero component */}
-        <div className="min-h-[30vh] sm:min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center items-center px-4 bg-white">
-          <div className="flex justify-between w-full md:w-2/3 mb-4 sm:mb-6 md:mb-10">
-            <button onClick={() => navigate("/home")} className="text-sm sm:text-base">Home</button>
-            <button onClick={() => navigate("/signup")} className="text-sm sm:text-base">Signup</button>
-          </div>
-          <div className="font-limeLight text-3xl sm:text-6xl md:text-7xl lg:text-9xl text-center">
-            PUNARNAVAH
-          </div>
-        </div>
+        {/* Hero - Minimal Split Layout */}
+        <div className="min-h-screen flex flex-col lg:flex-row">
+          {/* Left - Logo Section */}
+          <div className="lg:w-2/5 min-h-[35vh] lg:min-h-screen bg-muted/30 flex items-center justify-center p-8 lg:p-12 relative">
+            {/* Decorative accent line */}
+            <div className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-primary hidden lg:block" />
 
-        {/* Welcome msg and lottie animation */}
-        <div className="py-12 md:min-h-[50vh] bg-secondary flex flex-col md:flex-row justify-center gap-8 px-4 md:px-8">
-          <div className="flex flex-col justify-center w-full md:w-1/3">
-            <div className="font-limeLight mb-4 text-2xl md:text-4xl">
-              Welcome to a Greener Global Future
-            </div>
-            <div className="text-white text-base md:text-lg">
-              Meet Punarnavah—your friendly neighborhood waste processor with a
-              twist: We don't just dispose of it, we spin it into gold! No
-              really, we're transforming waste into an economic opportunity.
-              Pioneers in shaking up the circular economy, we connect
-              communities, artisans, and industries in the never-ending cycle of
-              waste upcycling.
+            <div className="relative">
+              <img
+                src={logo}
+                alt="Punarnavah"
+                className="h-40 w-40 sm:h-56 sm:w-56 lg:h-72 lg:w-72 object-contain drop-shadow-sm"
+              />
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center sm:items-end w-full md:w-1/3 min-h-[200px]">
-            <img src={logo} alt=""  className="h-72 w-72"/>
+
+          {/* Right - Content Section */}
+          <div className="lg:w-3/5 min-h-[65vh] lg:min-h-screen bg-background flex flex-col justify-center p-8 sm:p-12 lg:p-20">
+            <div className="max-w-xl">
+              {/* Eyebrow */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-px w-8 bg-primary" />
+                <span className="text-xs uppercase tracking-[0.2em] text-primary font-medium">
+                  Circular Economy
+                </span>
+              </div>
+
+              {/* Title */}
+              <h1 className="font-limeLight text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-foreground leading-[0.9] mb-6">
+                PUNARNAVAH
+              </h1>
+
+              {/* Description */}
+              <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-10 max-w-md">
+                Where waste becomes wealth. <br /> Connecting communities, artisans, and industries in the cycle of sustainable upcycling.
+              </p>
+
+              {/* CTA Group */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  onClick={() => navigate("/signup")}
+                  size="lg"
+                  className="px-8"
+                >
+                  Get Started
+                </Button>
+                <Button
+                  onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                  variant="outline"
+                  size="lg"
+                  className="px-8"
+                >
+                  Explore
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Black bg section */}
-        <div className="bg-black py-12 md:py-20">
+        <div id="features" className="bg-black py-12 md:py-20">
           {/* Feature Highlights */}
           <div className="flex justify-center items-center my-5 px-4">
             <div className="w-full md:w-2/3">
@@ -67,7 +93,7 @@ export const LandingPage = () => {
             <div className="bg-white w-full md:w-2/3 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-20 p-6 lg:p-20">
               <FeatureCard
                 title="Artisans' Hub"
-                description="A platform that enables artisans to source sustainable raw materials for their creations and showcase their unique, often overlooked skills by crafting innovative items." 
+                description="A platform that enables artisans to source sustainable raw materials for their creations and showcase their unique, often overlooked skills by crafting innovative items."
                 image={artisanImage}
               />
               <FeatureCard
@@ -118,38 +144,13 @@ export const LandingPage = () => {
               going!
             </div>
             <div>
-              <button onClick={()=>navigate('/signup')}className="bg-white px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <Button onClick={() => navigate('/signup')} className="bg-white text-black px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
                 Join Now
-              </button>
+              </Button>
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex flex-col gap-6 md:gap-10 justify-center items-center mt-20 md:mt-40">
-            <div className="flex gap-8 text-xl">
-              <a
-                href="#"
-                className="text-[#E4E6C3] hover:text-white transition-colors"
-              >
-                <BsTwitterX />
-              </a>
-              <a
-                href="#"
-                className="text-[#E4E6C3] hover:text-white transition-colors"
-              >
-                <BsInstagram />
-              </a>
-              <a
-                href="#"
-                className="text-[#E4E6C3] hover:text-white transition-colors"
-              >
-                <SiFacebook />
-              </a>
-            </div>
-            <div className="text-[#E4E6C3] text-sm text-center px-4">
-              © 2024 Punarnavah. Eco-Warriors unite!
-            </div>
-          </div>
+
         </div>
       </div>
     </>

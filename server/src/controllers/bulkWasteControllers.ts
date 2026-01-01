@@ -1,26 +1,24 @@
 import { Request, Response } from 'express';
 import { BulkWasteSchema, UploadBulkWasteSchema } from "@abhiram2k03/punarnavah-common";
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { AuthenticatedRequest } from '../utils/types';
 
-const prisma = new PrismaClient();
-
-export const uploadBulkWaste = async (req:Request, res: Response) => {
+export const uploadBulkWaste = async (req: Request, res: Response) => {
     try {
-       const { image, name, description, price, quantityAvailable, quantityUnit } = req.body;
+        const { image, name, description, price, quantityAvailable, quantityUnit } = req.body;
 
-       const validatedBulkWaste = UploadBulkWasteSchema.parse({
+        const validatedBulkWaste = UploadBulkWasteSchema.parse({
             image,
             name,
             description,
             price,
             quantityAvailable,
             quantityUnit,
-       });
-    
-       const newBulkWaste = await prisma.bulkWaste.create({
-            data:{
+        });
+
+        const newBulkWaste = await prisma.bulkWaste.create({
+            data: {
                 image: validatedBulkWaste.image,
                 name: validatedBulkWaste.name,
                 description: validatedBulkWaste.description,
@@ -28,12 +26,12 @@ export const uploadBulkWaste = async (req:Request, res: Response) => {
                 quantityAvailable: validatedBulkWaste.quantityAvailable,
                 quantityUnit: validatedBulkWaste.quantityUnit,
             }
-       })
+        })
 
-       return res.status(201).json({
+        return res.status(201).json({
             message: "Waste Uploaded Successfully!!",
             newBulkWaste
-       })
+        })
     }
     catch (error: any) {
         if (error instanceof z.ZodError) {
@@ -85,7 +83,7 @@ export const getBulkWasteById = async (req: AuthenticatedRequest, res: Response)
         })
 
         const validatedWaste = BulkWasteSchema.parse(getWasteById);
-        
+
         return res.status(200).json({
             message: "Successfully retrieved Waste ",
             validatedWaste

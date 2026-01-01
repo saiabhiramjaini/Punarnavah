@@ -1,10 +1,8 @@
 import { Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { CreateBulkWasteOrderSchema, BulkWasteOrderSchema } from "@abhiram2k03/punarnavah-common";
-import{ z } from 'zod';
+import { z } from 'zod';
 import { AuthenticatedRequest } from '../utils/types';
-
-const prisma = new PrismaClient();
 
 export const createBulkWasteOrder = async (req: AuthenticatedRequest, res: Response) => {
     try {
@@ -22,7 +20,7 @@ export const createBulkWasteOrder = async (req: AuthenticatedRequest, res: Respo
             bulkWasteId,
             userId
         });
-        
+
         const [newOrder, updatedBulkWaste] = await prisma.$transaction([
             prisma.bulkWasteOrder.create({
                 data: {
@@ -128,11 +126,11 @@ export const getBulkWasteOrderById = async (req: AuthenticatedRequest, res: Resp
 export const updateBulkWasteOrder = async (req: AuthenticatedRequest, res: Response) => {
     try {
 
-        const {id} = req.params;
-        const {status} = req.body;
+        const { id } = req.params;
+        const { status } = req.body;
 
         const changingStatus = await prisma.bulkWasteOrder.update({
-            where:{
+            where: {
                 id: id
             },
             data: {

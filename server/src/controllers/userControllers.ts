@@ -1,10 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { Response } from 'express';
 import { UserSchema } from "@abhiram2k03/punarnavah-common";
 import { z } from 'zod';
 import { AuthenticatedRequest } from '../utils/types';
-
-const prisma = new PrismaClient();
 
 
 // export const getUserInfo = async (req: AuthenticatedRequest, res: Response) => {
@@ -89,7 +87,7 @@ export const getUserInfo = async (req: AuthenticatedRequest, res: Response) => {
             message: "User details fetched successfully",
             validatedUserData
         });
-    } catch(error: any) {
+    } catch (error: any) {
         if (error instanceof z.ZodError) {
             return res.status(400).json({
                 message: "Validation Error",

@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { AuthenticatedRequest } from '../utils/types';
 import { Response, NextFunction } from 'express';
 
-const prisma = new PrismaClient();
 const User = prisma.user;
 
 export const authMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -21,7 +20,7 @@ export const authMiddleware = async (req: AuthenticatedRequest, res: Response, n
     }
 
     req.user = user;
-    
+
     next();
   } catch (error) {
     console.error('Authentication error:', error);

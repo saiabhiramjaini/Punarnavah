@@ -1,116 +1,132 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { Button } from "./Button";
-import { IoPersonSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { Menu, X, ArrowLeft, User } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/images/logo.png";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = localStorage.getItem("token");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const navItems = [{ name: "Home", path: "/" }];
+  // Don't show back button on home/landing pages
+  const hideBackButton = ["/", "/home", "/signin", "/signup"].includes(location.pathname);
 
-  const NavButton = ({ children, onClick }: any) => (
-    <button
-      onClick={onClick}
-      className="font-medium p-2 hover:text-gray-400"
-    >
-      {children}
-    </button>
-  );
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/signin");
+  };
 
   return (
-    <nav className="py-4 px-6 border-b border-gray-300 shadow-md ">
+    <nav className="sticky top-0 z-50 py-3 px-6 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center">
-          <button onClick={() => {navigate("/home")}} aria-label="Homepage">
-            <div className="text-2xl font-limeLight font-semibold flex justify-center items-center gap-3">
-              <img src={logo} className="h-12 w-12"/>PUNARNAVAH
-            </div>
+        {/* Left side - Back button and Logo */}
+        <div className="flex items-center gap-2">
+          {/* Back Button */}
+          {!hideBackButton && (
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              aria-label="Go back"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+          )}
+
+          {/* Logo */}
+          <button
+            onClick={() => navigate("/home")}
+            aria-label="Homepage"
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
+            <img src={logo} className="h-10 w-10" alt="Logo" />
+            <span className="text-xl font-bold text-foreground hidden sm:block">
+              PUNARNAVAH
+            </span>
           </button>
         </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          {navItems.map((item) => (
-            <NavButton key={item.name} onClick={() => {navigate(item.path)}}>
-              {item.name}
-            </NavButton>
-          ))}
-        </div>
-
-        {/* Desktop Icons */}
-        <div className="hidden md:flex space-x-4">
+        {/* Right side - Actions */}
+        <div className="flex items-center gap-3">
           {isLoggedIn ? (
-            <button
-              onClick={() => {
-                navigate("/profile");
-              }}
-            >
-              <div className="flex flex-col items-center">
-                <IoPersonSharp className="text-2xl" /> <span>PROFILE</span>{" "}
-              </div>
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground hover:opacity-90 transition-opacity">
+                  <User className="h-5 w-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  My Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/home")}>
+                  Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <Button
-              text={"Signup"}
-              onClick={() => {
-                navigate("/signup");
-              }}
-            />
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" onClick={() => navigate("/signin")}>
+                Sign In
+              </Button>
+              <Button onClick={() => navigate("/signup")}>
+                Get Started
+              </Button>
+            </div>
           )}
-        </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={toggleMenu}
-          className="md:hidden p-2 rounded transition duration-300 hover:bg-gray-200"
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors md:hidden"
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white text-black p-4 rounded-md shadow-lg mt-2">
-          <div className="flex flex-col space-y-2 justify-center items-center">
-            {navItems.map((item) => (
-              <NavButton
-                key={item.name}
-                onClick={() => {
-                  toggleMenu();
-                }}
-              >
-                {item.name}
-              </NavButton>
-            ))}
-
-            <div className="flex gap-3 mt-2">
-              {isLoggedIn ? (
-                <button
-                  onClick={() => {
-                    navigate("/profile");
-                  }}
-                >
-                  <div className="flex flex-col items-center">
-                    <IoPersonSharp className="text-2xl" /> <span>PROFILE</span>{" "}
-                  </div>
-                </button>
-              ) : (
-                <Button
-                  text={"Signup"}
-                  onClick={() => {
-                    navigate("/signup");
-                  }}
-                />
-              )}
-            </div>
+        <div className="md:hidden bg-background border-t border-border mt-3 pt-4 pb-2">
+          <div className="flex flex-col gap-2 px-2">
+            {isLoggedIn ? (
+              <>
+                <Button variant="ghost" onClick={() => { toggleMenu(); navigate("/profile"); }} className="justify-start">
+                  My Profile
+                </Button>
+                <Button variant="ghost" onClick={() => { toggleMenu(); navigate("/home"); }} className="justify-start">
+                  Dashboard
+                </Button>
+                <Button variant="ghost" onClick={() => { toggleMenu(); handleLogout(); }} className="justify-start text-destructive">
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" onClick={() => { toggleMenu(); navigate("/signin"); }} className="justify-start">
+                  Sign In
+                </Button>
+                <Button onClick={() => { toggleMenu(); navigate("/signup"); }}>
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
         </div>
       )}

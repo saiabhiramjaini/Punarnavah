@@ -1,10 +1,8 @@
 import { Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { CreateInnovativeProdOrderSchema, InnovativeProdOrderSchema } from "@abhiram2k03/punarnavah-common";
-import{ z } from 'zod';
+import { z } from 'zod';
 import { AuthenticatedRequest } from '../utils/types';
-
-const prisma = new PrismaClient();
 export const createInnovativeOrder = async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { innovativeProductId, amount, mobile, address, city, state, pincode } = req.body;
@@ -69,7 +67,7 @@ export const createInnovativeOrder = async (req: AuthenticatedRequest, res: Resp
             newOrder,
             updatedProduct
         });
-    } 
+    }
     catch (error: any) {
         if (error instanceof z.ZodError) {
             return res.status(400).json({
@@ -144,11 +142,11 @@ export const getInnovativeOrderById = async (req: AuthenticatedRequest, res: Res
 export const updateInnovativeOrder = async (req: AuthenticatedRequest, res: Response) => {
     try {
 
-        const {id} = req.params;
-        const {status} = req.body;
+        const { id } = req.params;
+        const { status } = req.body;
 
         const changingStatus = await prisma.innovativeProdOrder.update({
-            where:{
+            where: {
                 id: id
             },
             data: {

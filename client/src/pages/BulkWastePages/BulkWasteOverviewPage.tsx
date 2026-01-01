@@ -8,6 +8,9 @@ import toast from "react-hot-toast";
 import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 import { LoadingComp } from "../../components/LoadingComp";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
 export const BulkWasteOverviewPage = () => {
   const [data, setData] = useState<BulkWasteType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,59 +42,66 @@ export const BulkWasteOverviewPage = () => {
   }, [id]);
 
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen w-full bg-background">
       <Navbar />
       <div className="flex justify-center items-center p-4 mt-8">
         {loading ? (
           <div className="flex justify-center items-center min-h-[60vh]">
-          <LoadingComp/>
-        </div>
+            <LoadingComp />
+          </div>
         ) : error ? (
           <ErrorMsgComp error={error!} />
         ) : (
-          <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden min-h-[600px]">
-            {/* Left half containing the image */}
-            <div className="w-full md:w-3/5 p-8 bg-gray-100 flex items-center justify-center">
-              {data && (
-                <div className="relative w-full h-full max-h-[500px]">
-                  <img
-                    src={data.image}
-                    alt={data.name}
-                    className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
-                  />
-                </div>
-              )}
-            </div>
+          <Card className="w-full max-w-6xl overflow-hidden min-h-[600px]">
+            <div className="flex flex-col md:flex-row">
+              {/* Left half containing the image */}
+              <div className="w-full md:w-3/5 p-8 bg-muted flex items-center justify-center">
+                {data && (
+                  <div className="relative w-full h-full max-h-[500px]">
+                    <img
+                      src={data.image}
+                      alt={data.name}
+                      className="w-full h-full object-contain rounded-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                    />
+                  </div>
+                )}
+              </div>
 
-            {/* Right half containing the content */}
-            <div className="w-full md:w-2/5 p-8 flex flex-col justify-between bg-white">
-              {data && (
-                <div className="space-y-6 flex flex-col justify-between h-full">
-                  <div className="flex flex-col gap-5">
-                    <h1 className="text-3xl font-bold">{data.name}</h1>
-                    <p className="text-[#555555] text-lg">{data.description}</p>
-                    <div className="space-y-2">
-                      <p className="text-xl">
-                        Available quantity:{" "}
-                        <span className="font-semibold">
-                          {data.quantityAvailable} {data.quantityUnit}
-                        </span>
+              {/* Right half containing the content */}
+              <CardContent className="w-full md:w-2/5 p-8 flex flex-col justify-between">
+                {data && (
+                  <div className="space-y-6 flex flex-col justify-between h-full">
+                    <div className="flex flex-col gap-5">
+                      <h1 className="text-3xl font-bold text-foreground">{data.name}</h1>
+                      <p className="text-muted-foreground text-lg">{data.description}</p>
+                      <div className="space-y-2">
+                        <p className="text-xl text-foreground">
+                          Available quantity:{" "}
+                          <span className="font-semibold">
+                            {data.quantityAvailable} {data.quantityUnit}
+                          </span>
+                        </p>
+                      </div>
+                      <p className="text-xl text-foreground">
+                        Price: Rs.{data.price}/- per {data.quantityUnit.slice(0, -1)}
                       </p>
                     </div>
-                    <p className="text-xl">
-                      Price: Rs.{data.price}/- per {data.quantityUnit.slice(0, -1)}
-                    </p>
+                    <Button
+                      onClick={() =>
+                        navigate(`/bulk-waste/checkout/${data.id}`, {
+                          state: { name: data.name, price: data.price },
+                        })
+                      }
+                      size="lg"
+                      className="w-full text-lg"
+                    >
+                      Order
+                    </Button>
                   </div>
-                  <button
-                    onClick={() => navigate(`/bulk-waste/checkout/${data.id}`, { state: { name: data.name, price: data.price } })}
-                    className="w-full bg-secondary text-white px-6 py-3 rounded-xl text-xl font-semibold hover:bg-[#7a8968] transition-colors duration-300 transform hover:scale-105"
-                  >
-                    Order
-                  </button>
-                </div>
-              )}
+                )}
+              </CardContent>
             </div>
-          </div>
+          </Card>
         )}
       </div>
     </div>

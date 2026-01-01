@@ -1,10 +1,8 @@
 import { Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { UploadWasteRequestSchema, WasteRequestSchema } from "@abhiram2k03/punarnavah-common";
 import { z } from 'zod';
 import { AuthenticatedRequest } from '../utils/types';
-
-const prisma = new PrismaClient();
 
 export const uploadWasteReq = async (req: AuthenticatedRequest, res: Response) => {
     try {
@@ -13,18 +11,18 @@ export const uploadWasteReq = async (req: AuthenticatedRequest, res: Response) =
         const userId = req.user?.id;
 
         const validatedWasteReq = UploadWasteRequestSchema.parse({
-            image, 
-            name, 
-            description, 
-            requiredQuantity, 
+            image,
+            name,
+            description,
+            requiredQuantity,
             remainingQuantity,
-            quantityUnit, 
-            price, 
+            quantityUnit,
+            price,
             userId
         });
 
         const existingRequest = await prisma.wasteRequest.findFirst({
-            where: { 
+            where: {
                 AND: [
                     { name },
                     { userId: validatedWasteReq.userId }
@@ -33,8 +31,8 @@ export const uploadWasteReq = async (req: AuthenticatedRequest, res: Response) =
         });
 
         if (existingRequest) {
-            return res.status(409).json({ 
-                message: "A request with this name already exists for the user" 
+            return res.status(409).json({
+                message: "A request with this name already exists for the user"
             });
         }
 
@@ -56,7 +54,7 @@ export const uploadWasteReq = async (req: AuthenticatedRequest, res: Response) =
             newWasteRequest,
         });
     }
-    catch(error: any) { 
+    catch (error: any) {
         if (error instanceof z.ZodError) {
             return res.status(400).json({
                 message: "Validation Error",
@@ -73,7 +71,7 @@ export const uploadWasteReq = async (req: AuthenticatedRequest, res: Response) =
 export const getWasteReq = async (req: Request, res: Response) => {
     try {
         const wasteRequests = await prisma.wasteRequest.findMany({
-            include: { 
+            include: {
                 contributions: true,
                 SatisfiedWasteReqOrder: true
             }

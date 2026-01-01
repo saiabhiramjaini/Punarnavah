@@ -1,16 +1,17 @@
 import { UploadContributionType } from "@abhiram2k03/punarnavah-common";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { InputBox } from "../../components/InputBox";
-import { Button } from "../../components/Button";
 import axios from "axios";
 import { backendUrl } from "../../utils/config";
-import Lottie from "lottie-react";
-import animationData from '../../assets/lottie/contribute.json';
 import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
 import { LoadingComp } from "../../components/LoadingComp";
 import { ErrorMsgComp } from "../../components/ErrorMsgComp";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export const ContributionPage = () => {
   const [data, setData] = useState<UploadContributionType>({
@@ -42,11 +43,12 @@ export const ContributionPage = () => {
 
     setData({
       ...data,
-      [name]: name === "quantity" ? Number(value) : value
+      [name]: name === "quantity" ? Number(value) : value,
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     setError(null);
 
@@ -58,9 +60,8 @@ export const ContributionPage = () => {
 
       if (response.status === 201) {
         toast.success("Contributed Successfully");
-        navigate(`/waste-req-overview/${wasteRequestId}`);
-      }
-      else {
+        navigate(`/home`);
+      } else {
         console.error("Error occurred", response.data.error[0].message);
         toast.error(response.data.error[0].message);
       }
@@ -85,98 +86,135 @@ export const ContributionPage = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-            <LoadingComp/>
-          </div>
+      <div className="flex justify-center items-center min-h-screen bg-background">
+        <LoadingComp />
+      </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-background">
       <Navbar />
       <div className="flex flex-col lg:flex-row flex-grow">
         {/* Left Section */}
-        <div className="lg:w-1/2 p-4 md:p-8  flex flex-col justify-center">
-          <div className="max-w-xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800">
-              JOIN THE CIRCULAR ECONOMY TODAY
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Your Contribution helps artisans to create beautiful products from waste materials.
-              You can earn rewards for your contribution.
-            </p>
-            <div className="w-full max-w-md mx-auto">
-              <Lottie animationData={animationData} />
+        <div className="lg:w-1/2 bg-primary/80 p-8 lg:p-12 flex items-center justify-center">
+          <div className="max-w-md text-center">
+            {/* Badge */}
+            <span className="inline-block bg-secondary-foreground/20 text-secondary-foreground text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
+              Contribute & Earn
+            </span>
+
+            {/* Title */}
+            <h1 className="text-3xl lg:text-4xl font-bold text-secondary-foreground leading-tight mb-4">
+              Turn Your Waste Into Someone's Treasure
+            </h1>
+
+            {/* Features */}
+            <div className="space-y-2 text-left max-w-xs mx-auto">
+              <div className="flex items-center gap-3 text-secondary-foreground/90 text-sm">
+                <span className="text-secondary-foreground">✓</span>
+                <span>Support sustainable livelihoods</span>
+              </div>
+              <div className="flex items-center gap-3 text-secondary-foreground/90 text-sm">
+                <span className="text-secondary-foreground">✓</span>
+                <span>Get paid for your materials</span>
+              </div>
+              <div className="flex items-center gap-3 text-secondary-foreground/90 text-sm">
+                <span className="text-secondary-foreground">✓</span>
+                <span>Reduce landfill waste</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Right Section */}
         <div className="lg:w-1/2 p-4 md:p-8 flex items-center">
-          <div className="w-full max-w-xl mx-auto">
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
-              Be a Contributor
-            </h1>
+          <Card className="w-full max-w-xl mx-auto">
+            <CardContent className="p-6">
+              <h1 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+                Be a Contributor
+              </h1>
 
-            <div className="space-y-4">
-              <InputBox
-                label="Phone number"
-                type="number"
-                placeholder="Phone number"
-                name="mobile"
-                onChange={handleChange}
-              />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Phone number</label>
+                  <div className="flex">
+                    <span className="inline-flex items-center px-3 bg-muted border border-r-0 border-input rounded-l-md text-sm text-muted-foreground">
+                      +91
+                    </span>
+                    <input
+                      type="number"
+                      name="mobile"
+                      placeholder="Enter 10 digit number"
+                      onChange={handleChange}
+                      className="flex-1 h-10 rounded-l-none rounded-r-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    />
+                  </div>
+                </div>
 
-              <InputBox
-                label="Address"
-                type="text"
-                placeholder="Address"
-                name="address"
-                onChange={handleChange}
-              />
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Address</Label>
+                    <Input
+                      id="address"
+                      name="address"
+                      placeholder="Enter your address"
+                      onChange={handleChange}
+                    />
+                  </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <InputBox
-                  label="City"
-                  type="text"
-                  placeholder="City"
-                  name="city"
-                  onChange={handleChange}
-                />
-                <InputBox
-                  label="State"
-                  type="text"
-                  placeholder="State"
-                  name="state"
-                  onChange={handleChange}
-                />
-                <InputBox
-                  label="Pincode"
-                  type="text"
-                  placeholder="Pincode"
-                  name="pincode"
-                  onChange={handleChange}
-                />
-              </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="city">City</Label>
+                      <Input
+                        id="city"
+                        name="city"
+                        placeholder="City"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="state">State</Label>
+                      <Input
+                        id="state"
+                        name="state"
+                        placeholder="State"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="pincode">Pincode</Label>
+                      <Input
+                        id="pincode"
+                        name="pincode"
+                        placeholder="Pincode"
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
 
-              <InputBox
-                label="Quantity"
-                type="number"
-                placeholder="Quantity"
-                name="quantity"
-                onChange={handleChange}
-              />
+                  <div className="space-y-2">
+                    <Label htmlFor="quantity">Quantity</Label>
+                    <Input
+                      id="quantity"
+                      type="number"
+                      name="quantity"
+                      placeholder="Enter quantity"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
 
-              <div className="flex justify-center mt-6">
-                <Button
-                  text="Submit Contribution"
-                  onClick={handleSubmit}
-                />
-              </div>
+                <ErrorMsgComp error={error!} />
 
-              <ErrorMsgComp error={error!} />
-            </div>
-          </div>
+                <div className="flex justify-center pt-4">
+                  <Button type="submit" size="lg" disabled={loading}>
+                    {loading ? "Submitting..." : "Submit Contribution"}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -1,14 +1,12 @@
 import { Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { CreateSatisfiedWasteReqOrderSchema, SatisfiedWasteReqOrderSchema } from "@abhiram2k03/punarnavah-common";
-import{ z } from 'zod';
+import { z } from 'zod';
 import { AuthenticatedRequest } from '../utils/types';
-
-const prisma = new PrismaClient();
 
 export const createSatisfiedOrder = async (req: AuthenticatedRequest, res: Response) => {
     try {
-        
+
         const { satisfiedWasteReqId, amount, mobile, address, city, state, pincode } = req.body;
 
         const userId = req.user!.id;
@@ -27,10 +25,10 @@ export const createSatisfiedOrder = async (req: AuthenticatedRequest, res: Respo
         const newOrder = await prisma.satisfiedWasteReqOrder.create({
             data: {
                 satisfiedWasteReqId: validatedOrder.satisfiedWasteReqId,
-                amount: validatedOrder.amount, 
+                amount: validatedOrder.amount,
                 mobile: validatedOrder.mobile,
                 address: validatedOrder.address,
-                city: validatedOrder.city, 
+                city: validatedOrder.city,
                 state: validatedOrder.state,
                 pincode: validatedOrder.pincode,
                 userId: validatedOrder.userId!,
@@ -115,11 +113,11 @@ export const getSatisfiedOrderById = async (req: AuthenticatedRequest, res: Resp
 export const updateSatisfiedOrder = async (req: AuthenticatedRequest, res: Response) => {
     try {
 
-        const {id} = req.params;
-        const {status} = req.body;
+        const { id } = req.params;
+        const { status } = req.body;
 
         const changingStatus = await prisma.satisfiedWasteReqOrder.update({
-            where:{
+            where: {
                 id: id
             },
             data: {
