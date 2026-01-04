@@ -84,17 +84,11 @@ export const ContributionPage = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-background">
-        <LoadingComp />
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Navbar />
+      {loading && <LoadingComp />}
       <div className="flex flex-col lg:flex-row flex-grow">
         {/* Left Section */}
         <div className="lg:w-1/2 bg-primary/80 p-8 lg:p-12 flex items-center justify-center">
@@ -209,7 +203,7 @@ export const ContributionPage = () => {
 
                 <div className="flex justify-center pt-4">
                   <Button type="submit" size="lg" disabled={loading}>
-                    {loading ? "Submitting..." : "Submit Contribution"}
+                    Submit Contribution
                   </Button>
                 </div>
               </form>

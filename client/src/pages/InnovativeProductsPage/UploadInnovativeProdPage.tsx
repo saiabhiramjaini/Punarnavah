@@ -10,6 +10,7 @@ import {
 import { UploadInnovativeProductType } from "@abhiram2k03/punarnavah-common";
 import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
+import { LoadingComp } from "../../components/LoadingComp";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -111,6 +112,7 @@ export const UploadInnovativeProdPage = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
+      {loading && <LoadingComp />}
 
       <div className="flex-1 flex flex-col lg:flex-row">
         {/* Left Section - Image Upload */}
@@ -269,17 +271,8 @@ export const UploadInnovativeProdPage = () => {
               </div>
 
               <Button type="submit" size="lg" className="w-full" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Sparkles className="w-4 h-4 mr-2 animate-spin" />
-                    Listing Product...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    List Your Product
-                  </>
-                )}
+                <Sparkles className="w-4 h-4 mr-2" />
+                List Your Product
               </Button>
             </form>
           </div>

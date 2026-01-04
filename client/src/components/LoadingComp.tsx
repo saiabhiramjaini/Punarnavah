@@ -1,25 +1,25 @@
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/lottie/loading.json";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface LoadingCompProps {
-  variant?: "lottie" | "skeleton";
+  /**
+   * If true, renders as a fixed overlay on top of all content.
+   * If false, renders as a centered container in its parent.
+   */
+  fullScreen?: boolean;
 }
 
-export const LoadingComp = ({ variant = "lottie" }: LoadingCompProps) => {
-  if (variant === "skeleton") {
-    return (
-      <div className="flex flex-col space-y-4 w-full max-w-md">
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-8 w-3/4" />
-        <Skeleton className="h-8 w-1/2" />
-      </div>
-    );
-  }
-
+export const LoadingComp = ({ fullScreen = true }: LoadingCompProps) => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-background">
-      <Lottie animationData={loadingAnimation} className="h-24 w-24" />
+    <div
+      className={`${fullScreen
+          ? "fixed inset-0 z-[100] flex justify-center items-center bg-background/80 backdrop-blur-sm"
+          : "flex justify-center items-center w-full h-full min-h-[400px]"
+        }`}
+    >
+      <div className="flex flex-col items-center gap-4">
+        <Lottie animationData={loadingAnimation} className="h-24 w-24" />
+      </div>
     </div>
   );
 };

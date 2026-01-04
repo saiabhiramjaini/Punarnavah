@@ -10,6 +10,7 @@ import {
 import { UploadWasteRequestType } from "@abhiram2k03/punarnavah-common";
 import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
+import { LoadingComp } from "../../components/LoadingComp";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,6 +114,7 @@ export const UploadReqPage = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
+      {loading && <LoadingComp />}
 
       <div className="flex-1 flex flex-col lg:flex-row">
         {/* Left Section - Image Upload */}
@@ -259,17 +261,8 @@ export const UploadReqPage = () => {
               </div>
 
               <Button type="submit" size="lg" className="w-full" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Upload className="w-4 h-4 mr-2 animate-spin" />
-                    Creating Request...
-                  </>
-                ) : (
-                  <>
-                    <Upload className="w-4 h-4 mr-2" />
-                    Create Waste Request
-                  </>
-                )}
+                <Upload className="w-4 h-4 mr-2" />
+                Create Waste Request
               </Button>
             </form>
           </div>

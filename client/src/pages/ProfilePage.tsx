@@ -23,7 +23,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingComp } from "../components/LoadingComp";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -72,18 +72,7 @@ export const ProfilePage = () => {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
-        <div className="flex-1 flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden">
-          <div className="w-full lg:w-72 bg-muted animate-pulse hidden lg:block" />
-          <div className="flex-1 p-8 space-y-6">
-            <Skeleton className="h-12 w-64" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Skeleton className="h-32 rounded-xl" />
-              <Skeleton className="h-32 rounded-xl" />
-              <Skeleton className="h-32 rounded-xl" />
-            </div>
-            <Skeleton className="h-[400px] w-full rounded-xl" />
-          </div>
-        </div>
+        <LoadingComp />
       </div>
     );
   }

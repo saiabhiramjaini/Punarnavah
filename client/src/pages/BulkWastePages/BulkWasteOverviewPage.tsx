@@ -46,9 +46,7 @@ export const BulkWasteOverviewPage = () => {
       <Navbar />
       <div className="flex justify-center items-center p-4 mt-8">
         {loading ? (
-          <div className="flex justify-center items-center min-h-[60vh]">
-            <LoadingComp />
-          </div>
+          <LoadingComp />
         ) : error ? (
           <ErrorMsgComp error={error!} />
         ) : (

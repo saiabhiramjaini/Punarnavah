@@ -6,6 +6,7 @@ import Lottie from "lottie-react";
 import animationData from "../assets/lottie/Signup-a1.json";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
+import { LoadingComp } from "../components/LoadingComp";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -55,6 +56,7 @@ export const Signup = () => {
 
   return (
     <div className="min-h-screen bg-background flex">
+      {loading && <LoadingComp />}
       {/* Left section - Lottie Animation */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary/80 items-center justify-center p-12">
         <div className="max-w-md">
@@ -155,7 +157,7 @@ export const Signup = () => {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Creating account..." : "Create Account"}
+              Create Account
             </Button>
           </form>
 

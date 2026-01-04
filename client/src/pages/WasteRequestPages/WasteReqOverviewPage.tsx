@@ -42,11 +42,9 @@ export const WasteReqOverviewPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="flex justify-center items-center min-h-[60vh]">
-          <LoadingComp />
-        </div>
+        <LoadingComp />
       </div>
     );
   }

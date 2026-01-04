@@ -6,6 +6,7 @@ import animationData from "../assets/lottie/forgot-password.json";
 import Lottie from "lottie-react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { LoadingComp } from "../components/LoadingComp";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,6 +47,7 @@ export const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen bg-background flex">
+      {loading && <LoadingComp />}
       {/* Left section - Lottie Animation */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary/80 items-center justify-center p-12">
         <div className="max-w-md">
@@ -107,7 +109,7 @@ export const ForgotPassword = () => {
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Sending..." : "Send Reset Link"}
+                Send Reset Link
               </Button>
             </form>
           )}

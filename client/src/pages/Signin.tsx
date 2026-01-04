@@ -6,6 +6,7 @@ import Lottie from "lottie-react";
 import animationData from "../assets/lottie/login.json";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
+import { LoadingComp } from "../components/LoadingComp";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,6 +51,7 @@ export const Signin = () => {
 
   return (
     <div className="min-h-screen bg-background flex">
+      {loading && <LoadingComp />}
       {/* Left section - Lottie Animation */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary/80 items-center justify-center p-12">
         <div className="max-w-md">
@@ -124,7 +126,7 @@ export const Signin = () => {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
+              Sign In
             </Button>
           </form>
 

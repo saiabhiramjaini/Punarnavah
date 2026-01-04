@@ -6,6 +6,7 @@ import { backendUrl } from "../../utils/config";
 import Navbar from "../../components/Navbar";
 import toast from "react-hot-toast";
 import { ErrorMsgComp } from "../../components/ErrorMsgComp";
+import { LoadingComp } from "../../components/LoadingComp";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -91,6 +92,7 @@ export const SatisfiedWasteCheckOutPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+      {loading && <LoadingComp />}
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid md:grid-cols-2 gap-8">
           <Card>
@@ -167,7 +169,7 @@ export const SatisfiedWasteCheckOutPage = () => {
 
                 <div className="pt-4">
                   <Button type="submit" size="lg" className="w-full" disabled={loading}>
-                    {loading ? "Placing Order..." : "Place Order"}
+                    Place Order
                   </Button>
                 </div>
               </form>

@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import Navbar from "../../components/Navbar";
 import { ErrorMsgComp } from "../../components/ErrorMsgComp";
 import { UploadImage } from "../../components/UploadImage";
+import { LoadingComp } from "../../components/LoadingComp";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -122,6 +123,7 @@ export const UploadBulkWastePage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+      {loading && <LoadingComp />}
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <Card className="overflow-hidden">
           <div className="flex flex-col lg:flex-row">
@@ -192,7 +194,7 @@ export const UploadBulkWastePage = () => {
                 <ErrorMsgComp error={error!} />
                 <div className="pt-4 flex items-center justify-center">
                   <Button type="submit" size="lg" className="w-full sm:w-auto px-12" disabled={loading}>
-                    {loading ? "Submitting..." : "List Waste Item"}
+                    List Waste Item
                   </Button>
                 </div>
               </form>

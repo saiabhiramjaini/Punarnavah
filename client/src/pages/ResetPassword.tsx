@@ -4,6 +4,7 @@ import { ResetPasswordType } from "@abhiram2k03/punarnavah-common";
 import { backendUrl } from "../utils/config";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
+import { LoadingComp } from "../components/LoadingComp";
 import Lottie from "lottie-react";
 import animationData from "../assets/lottie/forgot-password.json";
 
@@ -51,6 +52,7 @@ export const ResetPassword = () => {
 
   return (
     <div className="min-h-screen bg-background flex">
+      {loading && <LoadingComp />}
       {/* Left section - Lottie Animation */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary/80 items-center justify-center p-12">
         <div className="max-w-md">
@@ -129,7 +131,7 @@ export const ResetPassword = () => {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Resetting..." : "Reset Password"}
+              Reset Password
             </Button>
           </form>
 
