@@ -2,7 +2,7 @@
 
 A sustainable waste management platform connecting households, artisans, and municipalities to promote circular economy and efficient waste utilization.
 
-## 🌟 Features
+## Features
 
 ### Household Waste Management Portal
 - **Artisan Requirements:** Artisans can post their specific waste material needs
