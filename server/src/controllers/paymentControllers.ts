@@ -1,60 +1,66 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import crypto from "crypto";
-import { Cashfree } from "cashfree-pg";
+import { Cashfree, CFEnvironment } from "cashfree-pg";
+import { AuthenticatedRequest } from "../utils/types";
 
-// Initialize Cashfree configuration
-Cashfree.XClientId = process.env.CLIENT_ID;
-Cashfree.XClientSecret = process.env.CLIENT_SECRET;
-Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
+const cashfree = new Cashfree(
+  CFEnvironment.PRODUCTION,
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET
+);
 
 const generateOrderId = (): string => {
   const uniqueId = crypto.randomBytes(16).toString("hex");
   const hash = crypto.createHash("sha256");
   hash.update(uniqueId);
-  const orderId = hash.digest("hex");
-  return orderId.substr(0, 12);
+  return hash.digest("hex").substring(0, 12);
 };
 
-export const payment = async (req: Request, res: Response) => {
+export const payment = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    let request = {
-      order_amount: 10.0,
+    const { amount, phone } = req.body;
+    const user = req.user!;
+
+    const request = {
+      order_amount: amount,
       order_currency: "INR",
-      order_id: await generateOrderId(),
+      order_id: generateOrderId(),
       customer_details: {
-        customer_id: "webcodder01",
-        customer_phone: "9999999999",
-        customer_name: "Web Codder",
-        customer_email: "webcodder@example.com",
+        customer_id: user.id,
+        customer_phone: phone,
+        customer_name: user.username,
+        customer_email: user.email,
       },
     };
 
-    Cashfree.PGCreateOrder("2023-08-01", request)
+    cashfree.PGCreateOrder(request)
       .then((response) => {
-        console.log(response.data);
         res.json(response.data);
       })
       .catch((error) => {
-        console.error(error.response.data.message);
+        console.error(error.response?.data?.message);
+        res.status(500).json({ message: "Payment order creation failed" });
       });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const verifyPayment = async (req: Request, res: Response) => {
+export const verifyPayment = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    let { orderId } = req.body;
+    const { orderId } = req.body;
 
-    Cashfree.PGOrderFetchPayments("2023-08-01", orderId)
+    cashfree.PGOrderFetchPayments(orderId)
       .then((response) => {
-        console.log(response);
         res.json(response.data);
       })
       .catch((error) => {
-        console.error(error.response.data.message);
+        console.error(error.response?.data?.message);
+        res.status(500).json({ message: "Payment verification failed" });
       });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

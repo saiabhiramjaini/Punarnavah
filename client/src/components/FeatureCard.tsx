@@ -25,7 +25,7 @@ export const FeatureCard = ({
         <img
           src={image}
           alt={title}
-          className="w-full h-auto object-contain max-w-[200px] sm:max-w-[250px] md:max-w-[300px]"
+          className="w-full h-auto object-contain max-w-50 sm:max-w-62.5 md:max-w-75"
         />
       </CardContent>
     </Card>

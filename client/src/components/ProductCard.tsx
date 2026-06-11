@@ -24,7 +24,7 @@ export const ProductCard = ({
             className="group relative bg-card overflow-hidden text-left transition-all duration-500 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)] w-full border border-border hover:border-primary/40"
         >
             {/* Image Container */}
-            <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-muted to-muted/50">
+            <div className="relative aspect-square overflow-hidden bg-linear-to-br from-muted to-muted/50">
                 <img
                     src={image}
                     alt={name}
@@ -32,7 +32,7 @@ export const ProductCard = ({
                 />
 
                 {/* Gradient Overlay on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Badge */}
                 {badge && (
@@ -50,7 +50,7 @@ export const ProductCard = ({
                         {name}
                     </h3>
                     {price !== undefined && (
-                        <span className="flex-shrink-0 text-lg font-bold text-primary">
+                        <span className="shrink-0 text-lg font-bold text-primary">
                             ₹{price}
                             {unit && (
                                 <span className="text-xs text-muted-foreground font-normal">/{unit}</span>

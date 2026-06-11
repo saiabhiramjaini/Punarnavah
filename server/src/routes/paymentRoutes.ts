@@ -4,7 +4,7 @@ import { authMiddleware } from '../middlewares/authMiddleware';
 
 const paymentRouter = Router();
 
-paymentRouter.get('/', authMiddleware as any, payment as any);
-paymentRouter.post('/', authMiddleware as any, verifyPayment as any);
+paymentRouter.post('/create-order', authMiddleware as any, payment as any);
+paymentRouter.post('/verify', authMiddleware as any, verifyPayment as any);
 
 export default paymentRouter;
